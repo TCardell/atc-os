@@ -79,3 +79,13 @@
 @container (max-width:560px){.email-client.is-composing .email-reader{grid-column:auto}}
 @media(max-width:720px){.taskbar-center{max-width:calc(100% - 125px)}.taskbar-right .tray-icon:first-child{display:none}.desktop-icons{left:8px;top:106px;gap:7px}.desktop-trash{right:9px;bottom:82px}.os-app-area .view-heading h2{font-size:20px}}
 @media(max-width:520px){.login-brand{font-size:24px}.login-card h1{font-size:25px}.taskbar-center{left:43%;max-width:calc(100% - 135px)}.desktop-shortcut{width:72px}.desktop-shortcut .os-app-icon{width:40px;height:40px}.email-client.is-composing .email-compose-panel{padding:12px}}
+
+/* El encabezado de respuesta solo aparece tras pulsar el botón Responder. */
+.email-client:not(.is-composing) .email-compose-head{display:none!important}
+.email-client.is-composing .email-compose-head{padding:18px 23px 12px;background:var(--side);border-top:1px solid var(--border);font-size:13px}
+.email-client.is-composing .email-compose-head span{font-size:15px}
+.email-client.is-composing .reply-panel{padding:18px 21px 20px;margin:0 20px 22px;border:1px solid var(--border);border-radius:14px;background:var(--surface)}
+.email-client.is-composing .reply-panel .reply-text{display:block;width:100%;min-height:250px;font-size:15px;line-height:1.75;resize:vertical}
+.email-client.is-composing .reply-panel .reply-footer{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+.email-client.is-composing .reply-panel .composer-hint{margin-right:auto}
+@container (max-width:560px){.email-client.is-composing .reply-panel{margin:0 9px 16px;padding:12px}}
