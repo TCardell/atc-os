@@ -1,4 +1,4 @@
-# Arquitectura técnica — AtC/OS v0.8
+# Arquitectura técnica — AtC/OS v0.9
 
 AtC/OS es una aplicación web estática (HTML, CSS y JavaScript sin librerías externas) que se distribuye mediante GitHub Pages. Contiene un **sistema operativo simulado** y un **motor independiente de atención al cliente**. No accede a archivos del ordenador físico sin una acción expresa del usuario y no interpreta semánticamente las respuestas libres.
 
@@ -8,7 +8,7 @@ AtC/OS es una aplicación web estática (HTML, CSS y JavaScript sin librerías e
 - `js/scenario-selector.js`: selecciona hasta 12 situaciones de manera pseudoaleatoria determinista, con representación de los cuatro canales y resolución de dependencias.
 - `js/engine.js`: estado de la jornada, transiciones y eventos. Guarda `scenarioIds` y estados individuales, no el tamaño total del catálogo.
 - `js/state.js`: persistencia local de la sesión y migración compatible con el piloto anterior. Las sesiones existentes se recuperan preservando sus casos, respuestas y archivos; los nuevos casos solo se seleccionan al comenzar una jornada nueva.
-- `js/vfs.js`: **filesystem virtual** por jornada, carpetas y ficheros, mover/copiar/renombrar/papelera/restaurar, adjuntos y descarga del archivo físico. Está integrado en el estado de la sesión. El contenido es textual en el piloto y los documentos PDF descargados se generan como fichas de demostración válidas; no se finge que son el diseño gráfico original.
+- `js/vfs.js`: **filesystem virtual** por jornada, carpetas y ficheros, mover/copiar/renombrar/papelera/restaurar, adjuntos y visor interno de documentos, **sin descarga física de archivos del VFS**. Está integrado en el estado de la sesión. El contenido es textual en el piloto y los PDF simulados se presentan como fichas de demostración dentro del explorador; no se finge que son el diseño gráfico original.
 - `js/file-app.js`: interfaz de Archivos, selección, drag-and-drop y adjuntar desde Correo.
 - `js/tasks-app.js`: checklist opcional, independiente de la calificación; marca automática solo si una gestión se completó.
 - `js/settings-app.js`: ajustes de idioma, tema, logo, nombre de empresa y wallpaper.
@@ -44,6 +44,14 @@ Los adjuntos de los cinco casos son **documentos de demostración** generados a 
 - `data/received-files.js` describe los documentos recibidos **en el mundo ficticio**, su cliente, pedido y contenido didáctico bilingüe.
 - `js/vfs.js` migra las sesiones antiguas para crear una carpeta de *Archivos recibidos* y copiar allí una sola vez los tres PDF de ejemplo. El campo `receivedSeedVersion` evita regenerarlos si el alumno los elimina.
 - `receivedForOrder(orderId)` encuentra el documento vinculado solo si existe y no está en la Papelera; `fileContent(node)` devuelve el texto de consulta en el idioma actual.
-- `js/file-app.js` permite abrir el documento desde los casos de Mensajería/Correo y mostrar una vista previa antes de descargarlo.
+- `js/file-app.js` permite abrir el documento desde los casos de Mensajería/Correo y abrirlo en una lectura ampliada dentro de Archivos. No genera archivos físicos.
 - `js/engine.js` registra la consulta del archivo cuando existe realmente y no interpreta las respuestas libres.
-- Los PDF generados a partir de las fichas son **documentos de práctica**, no artes finales originales. La futura incorporación de originales requerirá recursos incluidos explícitamente y un visualizador adecuado.
+- Los documentos de práctica representan archivos recibidos, pero no son artes finales originales. El visor muestra su contenido de texto y datos dentro del OS; si se incorporan originales más adelante, habrá que suministrar esos recursos y desarrollar su visualización.
+
+## Lectura de documentos (v0.9)
+
+- `js/file-app.js` controla un visor interno con estado local de archivo abierto. Seleccionar un archivo o pulsar «Abrir archivo» presenta su contenido en el interior de la ventana Archivos, con botón de volver, nombre, formato y datos del pedido.
+- El contenido se obtiene de `AtCOS.VFS.fileContent(n)`, conserva ES/CA y se escapa antes de insertarse en el DOM. No se renderiza HTML suministrado por usuarios.
+- `js/vfs.js` no expone ni implementa ninguna descarga física (`download`, `makePdf` ni `URL.createObjectURL`) para los archivos de práctica. Las operaciones de copiar, mover, guardar y adjuntar siguen siendo internas.
+- **Excepción intencionada:** `js/pdf.js` continúa generando el informe de la jornada como PDF descargable para entrega al docente.
+- El icono `settings` se define una sola vez en `js/icons.js`, con un SVG simétrico dentro del `viewBox 0 0 24 24`. Los tests verifican contorno, simetría y límites.
