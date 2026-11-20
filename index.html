@@ -4,7 +4,7 @@
  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
  <meta name="theme-color" content="#11283c">
  <title>AtC/OS · Oficina Virtual</title>
- <link rel="stylesheet" href="css/app.css"><link rel="stylesheet" href="css/desktop.css"><link rel="stylesheet" href="css/system-v05.css"><link rel="stylesheet" href="css/setup-v06.css"><link rel="stylesheet" href="css/themes/modern.css"><link rel="stylesheet" href="css/themes/retro98.css">
+ <link rel="stylesheet" href="css/app.css"><link rel="stylesheet" href="css/desktop.css"><link rel="stylesheet" href="css/system-v05.css"><link rel="stylesheet" href="css/setup-v06.css"><link rel="stylesheet" href="css/themes/modern.css"><link rel="stylesheet" href="css/themes/retro98.css"><link rel="stylesheet" href="css/ux-v07.css">
 </head>
 <body data-mode="dark" data-os-theme="modern" data-setup-page="1">
  <section id="bootScreen" class="boot-screen" aria-live="polite"><div class="boot-mark">AtC<span>/OS</span></div><div class="boot-spinner" aria-hidden="true"></div><div class="boot-progress-track" aria-hidden="true"><div id="bootProgress" class="boot-progress-fill"></div></div><p id="bootCaption">Iniciando AtC/OS…</p><button id="skipBoot" type="button">Omitir</button></section>
@@ -32,7 +32,7 @@
  <div id="appShell" class="os-shell" hidden>
   <div class="desktop-wallpaper" id="desktopWallpaper">
    <div class="desktop-identity"><div id="desktopBrandEmoji" class="desktop-identity-emoji">△</div><div class="desktop-identity-text"><span id="desktopGreeting">MI OFICINA</span><strong id="desktopCompany">Empresa gráfica</strong><small id="desktopStudent">Jornada de trabajo</small></div></div>
-   <div class="desktop-icons" id="desktopIcons" aria-label="Accesos directos"></div><div class="desktop-file-drop" id="desktopFileDrop" aria-label="Soltar archivo en escritorio"></div>
+   <div class="desktop-icons" id="desktopIcons" aria-label="Accesos directos"></div><button type="button" id="desktopTrash" class="desktop-shortcut desktop-trash" data-os-trash data-vfs-drop="trash" aria-label="Abrir papelera" title="Papelera"></button><div class="desktop-file-drop" id="desktopFileDrop" aria-label="Soltar archivo en escritorio"></div>
   </div>
   <div id="windowLayer" class="os-window-layer" aria-label="Ventanas de la oficina"></div>
   <div id="startMenu" class="os-start-menu" hidden role="dialog" aria-label="Menú Inicio">
@@ -45,7 +45,7 @@
   <div id="powerMenu" class="power-menu" hidden><button type="button" data-power="shutdown">Apagar · Finalizar e informe</button><button type="button" data-power="reboot">Reiniciar partida</button></div>
   <div id="snapMenu" class="os-snap-menu" role="menu" hidden></div>
   <div id="notificationPanel" class="notification-panel" hidden role="region" aria-label="Centro de notificaciones"><div class="notification-title"><strong id="notificationsHeading">Notificaciones</strong><button class="os-plain" id="closeNotifications" aria-label="Cerrar"><span id="closeNotificationsGlyph"></span></button></div><div id="notificationItems"></div></div>
-  <div class="os-taskbar" id="taskbar"><div class="taskbar-left"><button id="taskStart" class="taskbar-button start-symbol" aria-label="Inicio" title="Inicio"><span id="taskStartGlyph"></span></button><button id="taskSearch" class="taskbar-button" aria-label="Buscar" title="Buscar"><span id="taskSearchGlyph"></span></button></div><div id="taskbarApps" class="taskbar-apps"></div><div class="taskbar-right"><button id="taskMode" class="tray-icon" aria-label="Cambiar apariencia" title="Cambiar apariencia"></button><button id="taskNotifications" class="tray-icon" aria-label="Notificaciones" title="Notificaciones"><span id="taskNotificationsGlyph"></span><span id="notificationDot"></span></button><button id="taskClock" class="task-clock" aria-label="Reloj y notificaciones"><strong id="fakeTime">09:00</strong><small id="realClock">11/11/2026</small></button></div></div>
+  <div class="os-taskbar" id="taskbar"><div class="taskbar-center"><button id="taskStart" class="taskbar-button start-symbol" aria-label="Inicio" title="Inicio"><span id="taskStartGlyph"></span></button><div id="taskbarApps" class="taskbar-apps"></div></div><div class="taskbar-right"><button id="taskMode" class="tray-icon" aria-label="Cambiar apariencia" title="Cambiar apariencia"></button><button id="taskNotifications" class="tray-icon" aria-label="Notificaciones" title="Notificaciones"><span id="taskNotificationsGlyph"></span><span id="notificationDot"></span></button><button id="taskClock" class="task-clock" aria-label="Reloj y notificaciones"><strong id="fakeTime">09:00</strong><small id="realClock">11/11/2026</small></button></div></div>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
  </div>
  <dialog id="helpDialog" class="help-dialog"><div class="dialog-inner"><h2 id="helpTitle">Cómo funciona</h2><div id="helpBody"></div><div class="dialog-actions"><button class="btn btn-primary" id="helpClose">Entendido</button></div></div></dialog>
