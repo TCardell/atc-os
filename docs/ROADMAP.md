@@ -1,6 +1,6 @@
 # Hoja de ruta AtC/OS — estado vivo
 
-**Estado actual: v0.9.1 (20 de noviembre de 2026).** Para evitar regresiones, las decisiones vigentes se mantienen en [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) y el historial completo en [CHANGELOG.md](../CHANGELOG.md). Este documento recoge **qué existe y qué queda pendiente**, no promesas asociadas a versiones antiguas.
+**Estado actual: v0.9.2 (20 de noviembre de 2026).** Para evitar regresiones, las decisiones vigentes se mantienen en [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) y el historial completo en [CHANGELOG.md](../CHANGELOG.md). Este documento recoge **qué existe y qué queda pendiente**, no promesas asociadas a versiones antiguas.
 
 ## Funcionalidad entregada
 
@@ -10,12 +10,13 @@
 - **v0.8:** cuatro canales definitivos (correo, mensajería, teléfono e Instagram), carpeta de archivos recibidos, documentos vinculados realmente a cliente/pedido y migración de partidas.
 - **v0.9:** visor interno de documentos, supresión de descargas físicas de archivos de práctica, icono de Ajustes corregido; sigue descargándose únicamente el informe PDF del alumno.
 - **v0.9.1:** mantenimiento preventivo de copias de carpetas, adjuntos, dependencias de escenarios, validaciones CI y documentación. No cambia la interfaz ni el contenido piloto.
+- **v0.9.2:** registro atómico y auditoría de paquetes, selección de sesiones por cadenas completas, preservación de respuestas de casos temporalmente no disponibles, tests de catálogo ampliado sintético y [guía de incorporación](CASE_BANK.md). No cambia los cinco casos reales.
 
 **Hoy existen cinco casos piloto y cuatro canales.** Las decisiones de descartar atención presencial y de mantener las descargas físicas limitadas al informe final son obligatorias en próximos desarrollos.
 
 ## Trabajo pendiente — sin asignar aún a versión
 
-1. **Banco docente definitivo:** diseñar y revisar entre 25 y 30 situaciones bilingües, con dificultad, RA, relaciones entre clientes y pedidos; seleccionar jornadas variadas de 10–12 según reglas verificables.
+1. **Banco docente definitivo:** diseñar y revisar entre 25 y 30 situaciones bilingües, con dificultad, RA y relaciones entre clientes/pedidos/archivos. **La infraestructura de selección y registro ya existe**, pero falta redactar, integrar y ensayar los casos reales según [CASE_BANK.md](CASE_BANK.md).
 2. **Validación en el aula:** ensayar en Google Sites y ordenadores reales, revisar tamaños de ventanas, descarga del informe, accesibilidad y comportamiento de almacenamiento local.
 3. **Motor y arquitectura de aplicaciones:** separar gradualmente `js/views.js` por canales, mejorar los presupuestos y los expedientes de pedidos sin romper sus identificadores.
 4. **Archivos más complejos:** estudiar IndexedDB y previsualizaciones auténticas con migración compatible; no almacenar binarios grandes en `localStorage`.

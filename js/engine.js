@@ -7,10 +7,19 @@ AtCOS.Engine=(()=>{
  function stamp(){return String(Math.floor(state.simMinutes/60)).padStart(2,'0')+':'+String(state.simMinutes%60).padStart(2,'0')}
  function event(type,title,caseId){state.events.unshift({type,title,caseId:caseId||null,at:stamp()});state.events=state.events.slice(0,60)}
  function create({student,company,lang,theme,mode,emoji}){
-  const start=Date.now(),picked=AtCOS.ScenarioSelector.choose(AtCOS.Data.cases,{limit:12,seed:start}),newState={version:2,scenarioIds:picked,taskChecks:{},wallpaper:'aurora',session:`ATC-${start.toString(36).toUpperCase().slice(-6)}`,student:student.trim(),company:company.trim(),lang,theme,mode,emoji:emoji||'△',selectedByView:{},startedAt:now(),endedAt:null,finalized:false,simMinutes:540,view:'dashboard',selectedCase:null,events:[],cases:AtCOS.Data.cases.filter(data=>picked.includes(data.id)).map(data=>({id:data.id,revealed:data.arrival===0,read:false,complete:false,step:0,messages:[{role:'client',text:data.steps[0].incoming,at:'09:00',kind:data.kind}],draft:'',actions:[],note:'',flags:{},lastLookup:null,startedAt:null,finishedAt:null})),openedManual:[],lastTick:Date.now()};
+  const start=Date.now(),picked=AtCOS.ScenarioSelector.choose(AtCOS.Data.cases,{limit:12,seed:start}),newState={version:2,scenarioIds:picked,bankPacks:AtCOS.Data.packs.map(({id,version})=>({id,version})),taskChecks:{},wallpaper:'aurora',session:`ATC-${start.toString(36).toUpperCase().slice(-6)}`,student:student.trim(),company:company.trim(),lang,theme,mode,emoji:emoji||'△',selectedByView:{},startedAt:now(),endedAt:null,finalized:false,simMinutes:540,view:'dashboard',selectedCase:null,events:[],cases:AtCOS.Data.cases.filter(data=>picked.includes(data.id)).map(data=>({id:data.id,revealed:data.arrival===0,read:false,complete:false,step:0,messages:[{role:'client',text:data.steps[0].incoming,at:'09:00',kind:data.kind}],draft:'',actions:[],note:'',flags:{},lastLookup:null,startedAt:null,finishedAt:null})),openedManual:[],lastTick:Date.now()};
   state=newState;event('start',lang==='ca'?'Comença la jornada':'Comienza la jornada');save();return state;
  }
- function restore(s){if(!AtCOS.Store.validate(s))throw Error('Invalid session');const supported=new Set(AtCOS.Data.cases.map(c=>c.id));s.cases=s.cases.filter(c=>supported.has(c.id));s.scenarioIds=s.cases.map(c=>c.id);s.version=2;s.taskChecks=s.taskChecks||{};s.wallpaper=s.wallpaper||'aurora';s.vfs=s.vfs||null;state=s;state.lastTick=Date.now();state.view=state.view||'dashboard';state.selectedByView=state.selectedByView||{};state.emoji=state.emoji||'△';state.openedManual=state.openedManual||[];save();return state}
+ function restore(s){if(!AtCOS.Store.validate(s))throw Error('Invalid session');const supported=new Set(AtCOS.Data.cases.map(c=>c.id));
+  // Never destroy a student's previous answers if a pack is temporarily absent.
+  // Park unmatched cases and reinstate them automatically if the pack returns.
+  const seen=new Set(),active=[],parked=[];
+  for(const c of [...s.cases,...(Array.isArray(s.parkedCases)?s.parkedCases:[])]){
+   if(seen.has(c.id))continue;
+   seen.add(c.id);
+   (supported.has(c.id)?active:parked).push(c);
+  }
+  s.cases=active;s.parkedCases=parked;s.scenarioIds=active.map(c=>c.id);s.version=2;s.taskChecks=s.taskChecks||{};s.wallpaper=s.wallpaper||'aurora';s.vfs=s.vfs||null;state=s;state.lastTick=Date.now();state.view=state.view||'dashboard';state.selectedByView=state.selectedByView||{};state.emoji=state.emoji||'△';state.openedManual=state.openedManual||[];save();return state}
  function save(){AtCOS.Store.save(state)}
  function caseData(id){return AtCOS.Data.cases.find(c=>c.id===id)}
  function caseState(id){return state?.cases?.find(c=>c.id===id)}

@@ -1,4 +1,4 @@
-# Arquitectura técnica — AtC/OS v0.9.1
+# Arquitectura técnica — AtC/OS v0.9.2
 
 AtC/OS es una aplicación web estática (HTML, CSS y JavaScript sin librerías externas) que se distribuye mediante GitHub Pages. Contiene un **sistema operativo simulado** y un **motor independiente de atención al cliente**. No accede a archivos del ordenador físico sin una acción expresa del usuario y no interpreta semánticamente las respuestas libres.
 
@@ -63,3 +63,11 @@ Los adjuntos de los cinco casos son **documentos de demostración** generados a 
 - `VFS.attach()` impide incluir ficheros en correos completados/no revelados o tras cerrar la jornada; las pruebas conservan compatibilidad con partidas que carezcan del campo `revealed`.
 - `ScenarioSelector.choose()` evita seleccionar casos con requisitos ausentes y rechaza ciclos de dependencia. `scripts/validate.mjs` analiza todos los módulos JS y valida IDs, referencias y traducciones de documentos recibidos, además de las dependencias del catálogo.
 - Los tests `tests/maintenance-v091.test.mjs` cubren copias de carpetas, ciclo de vida de adjuntos, envío, finalización y selección de situaciones. `npm run ci` es obligatorio antes de incorporar una versión.
+
+## Contrato del banco de casos v0.9.2
+
+- `data/registry.js` es el registro principal, independiente de las ventanas: `addPack` y `addCases` validan el paquete **antes de escribir** para evitar importaciones parciales. `audit()` reúne comprobaciones entre paquetes después de registrar todos los datos; `summary()` ofrece la distribución por canal, RA, dificultad y paquete.
+- `js/scenario-selector.js` mantiene la API `choose(cases,{limit,seed})`. Calcula íntegramente cada cadena de dependencias, rechaza ciclos, no consume espacio para medio encadenamiento y conserva una selección determinista. Prioriza al menos una tarea inicial y una representación por canal cuando el catálogo y la capacidad lo permiten.
+- `js/engine.js` guarda `bankPacks` con ID/versión en las sesiones nuevas; en restauración, estados de casos no disponibles pasan a `parkedCases` en vez de descartarse y se reactivan si reaparece su ID. Los IDs antiguos de casos, pedidos y clientes deben mantenerse estables; no es un sistema de migración semántica de contenidos ya redactados.
+- `scripts/validate.mjs` utiliza la auditoría única para referencias/idiomas y valida `post` de **todos los paquetes**, además de verificar que README y paquete declaran la misma versión.
+- Guía de creación e integración: **[CASE_BANK.md](CASE_BANK.md)**. Pruebas: `tests/case-bank-v092.test.mjs`. No se ha cargado ninguna nueva colección en la v0.9.2.
