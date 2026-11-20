@@ -21,7 +21,7 @@
 .desktop-icons{bottom:98px;max-width:calc(100% - 115px)}
 .desktop-shortcut{font-size:12px;min-height:83px;gap:8px}
 .desktop-shortcut .os-app-icon{width:48px;height:48px}
-.desktop-trash{position:absolute!important;right:18px;bottom:90px;left:auto;top:auto;z-index:6;width:91px;min-height:87px;color:#fff;pointer-events:auto}
+.desktop-trash{position:absolute!important;right:18px;bottom:90px;left:auto;top:auto;z-index:2;width:91px;min-height:87px;color:#fff;pointer-events:auto}
 .desktop-trash svg{display:block;width:40px;height:40px;color:#e4f2ff;filter:drop-shadow(0 2px 5px #0a1e4b8c)}
 .desktop-trash.is-filled svg{color:#ffe1ac}
 /* Tipografía más cómoda: sin ampliar artificialmente iconos o controles del sistema. */
