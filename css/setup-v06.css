@@ -1,0 +1,37 @@
+/* AtC/OS v0.6 · Asistente inicial compacto y centrado. */
+.os-first-run.welcome{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:66px 16px 42px;position:relative;overflow-y:auto;background:radial-gradient(ellipse at 17% 12%,#284d83a8,transparent 48%),radial-gradient(ellipse at 90% 86%,#6e4e9c77,transparent 54%),#0a1731}
+.os-first-run .welcome-art{display:none!important}
+.os-first-run .welcome-form-wrap{display:flex!important;align-items:center;justify-content:center;width:100%;min-height:0;padding:0;margin:auto;background:transparent!important}
+.os-first-run .welcome-form{width:min(560px,100%);max-width:560px;padding:25px clamp(21px,4vw,42px) 25px;margin:0;background:var(--surface);color:var(--ink);border:1px solid #b2c4e166;box-shadow:0 28px 90px #0009,0 0 0 1px #ffffff0b;border-radius:23px;position:relative}
+.os-first-run .welcome-form::before{content:'AtC/OS · CONFIGURACIÓN INICIAL';position:absolute;left:0;right:0;top:-40px;text-align:center;color:#d8e8ff;font-size:12px;font-weight:800;letter-spacing:.15em}
+.os-setup-progress{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 17px}
+.os-setup-progress span{height:4px;background:var(--border);border-radius:9px;transition:background .2s}
+.os-setup-progress span.is-current{background:var(--brand)}
+.os-setup-avatar{display:grid;place-items:center;width:80px;height:80px;border-radius:50%;margin:0 auto 14px;color:var(--brand);background:color-mix(in srgb,var(--brand) 11%,var(--surface));border:1px solid color-mix(in srgb,var(--brand) 34%,var(--border))}
+.os-first-run .os-setup-step{text-align:center}
+.os-first-run .os-setup-step[hidden]{display:none!important}
+.os-first-run .os-setup-step h1,.os-first-run .os-setup-step h2{font-size:clamp(23px,3vw,31px);line-height:1.2;margin:0 0 11px;letter-spacing:-.04em;color:var(--ink)}
+.os-first-run .os-setup-step .subheading,.os-first-run .os-step-desc{font-size:13px;max-width:440px;margin:0 auto 22px;line-height:1.55;color:var(--muted);text-align:center}
+.os-first-run .os-setup-step label{display:block;text-align:left;margin:15px 0 7px;font-size:12px;font-weight:760;color:var(--ink)}
+.os-first-run .os-setup-step .field{min-height:43px}
+.os-first-run .os-setup-next{margin-top:20px;min-height:46px}
+.os-first-run .eyebrow,.os-first-run .os-step-kicker{color:var(--brand);font-weight:900;letter-spacing:.14em;font-size:10px;margin:0 0 10px}
+.os-first-run .os-setup-step .swatches{justify-content:flex-start}
+.os-first-run .os-setup-step .emoji-swatches{grid-template-columns:repeat(12,minmax(0,1fr));gap:6px}
+.os-first-run .os-setup-step .emoji-option{font-size:20px;min-height:35px}
+.os-first-run .os-setup-back{min-height:36px;width:100%;margin-top:12px}
+.os-first-run .welcome-actions{margin-top:8px}
+body[data-setup-page="1"] .os-first-run .welcome-actions{display:none}
+.os-first-run .privacy-note{margin-top:18px;padding-top:15px;border-top:1px solid var(--border);font-size:11px;line-height:1.4}
+.boot-screen .boot-progress-track{height:5px;width:min(320px,72vw);overflow:hidden;background:#9fbcdd44;border-radius:10px;margin-top:24px}
+.boot-screen .boot-progress-fill{width:3%;height:100%;background:linear-gradient(90deg,#4991ef,#55e1cb);border-radius:10px}
+.boot-screen[hidden],.login-screen[hidden]{display:none!important}
+.login-avatar svg{display:block}
+.snap-menu-presets{border-top:1px solid var(--border);margin-top:12px;padding-top:12px}
+.snap-menu-presets>small{font-weight:780;color:var(--muted);display:block;margin-bottom:8px}
+.snap-preset-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.snap-preset{min-height:34px;border:1px solid var(--border);border-radius:8px;background:var(--soft);color:var(--ink);font-size:11px;font-weight:750;cursor:pointer}
+.snap-preset:hover,.snap-preset.selected{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,var(--surface))}
+@media(max-width:600px){.os-first-run.welcome{padding:60px 10px 28px;align-items:flex-start}.os-first-run .welcome-form{padding:20px 16px}.os-first-run .os-setup-step .emoji-swatches{grid-template-columns:repeat(6,1fr)}.os-first-run .company-name-control{grid-template-columns:minmax(0,1fr)}}
+@media(max-height:720px){.os-first-run .welcome-form{padding-top:15px;padding-bottom:15px}.os-setup-avatar{width:60px;height:60px;margin-bottom:7px}.os-setup-avatar svg{width:44px;height:44px}}
+@media(prefers-reduced-motion:reduce){.boot-screen .boot-progress-fill{transition:none!important}}
