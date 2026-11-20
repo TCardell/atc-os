@@ -22,5 +22,5 @@ const cases=[
    {incoming:L('Hola, soy Laura, del Estudio Prisma. Llamo por el pedido P-1847. Además del cambio de teléfono, quería saber si puedo recoger las tarjetas personalmente en lugar de recibirlas por mensajería.','Hola, som na Laura, d’Estudio Prisma. Telefon per la comanda P-1847. A més del canvi de telèfon, volia saber si puc recollir les targetes personalment en lloc de rebre-les per missatgeria.'),prompt:L('Continúa la atención de la misma clienta por teléfono.','Continua l’atenció de la mateixa clienta per telèfon.')}
   ]}
  ];
- AtCOS.Data.addPack({id:'pilot',version:3,cases});
+ AtCOS.Data.addPack({id:'pilot',version:4,cases});
 })();
