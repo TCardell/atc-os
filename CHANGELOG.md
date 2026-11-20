@@ -1,3 +1,15 @@
+## v0.7.0 — Escritorio, legibilidad, correo y quinto canal (20-11-2026)
+
+- Inicio de sesión centrado, incluso con una partida guardada.
+- Botón Inicio con iconografía propia, fijo en el centro; se retira la lupa redundante de la barra inferior.
+- Recuperación de accesos a aplicaciones en el escritorio, papelera virtual visible y soporte de arrastrar archivos a la papelera.
+- Geometría de ventanas recordada entre cierre y reapertura en la misma jornada; Tareas comienza más pequeña.
+- Tipografías más grandes; Correo con botón «Responder» que despliega el editor ampliado.
+- Cabecera de Correo con nombre de la empresa y etiqueta corporativa, sin `@oficina.example`.
+- Recuperado canal presencial y sexto caso piloto enlazado a una llamada; escena con diálogo no duplicado.
+- Corregida la posible reapertura del login al omitir la animación de arranque.
+- Se conservan temas modulares y funciones de Archivos, adjuntos y PDF.
+
 ## v0.6.0 — Integración del asistente y mejoras visuales (20-11-2026)
 
 - Primera configuración centrada en dos pasos, con avatar SVG, sin composición lateral.
