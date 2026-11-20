@@ -2,7 +2,7 @@
 
 **Simulador educativo de atención al cliente en una empresa de artes gráficas.** El alumnado trabaja en un escritorio virtual con correo, mensajería, teléfono, comentarios de Instagram, archivos y tareas. Todas las respuestas son redactadas libremente y se recogen en un informe PDF para revisión del profesorado. No hay evaluación semántica automática.
 
-**Estado:** **v0.9.1**, revisión interna de integridad de archivos, adjuntos, casos y validaciones, sin cambios deliberados en la interfaz. Cinco casos piloto y **cuatro canales: correo, mensajería, teléfono e Instagram**. La atención presencial queda descartada. Todavía no es el banco definitivo.
+**Estado:** **v0.9.2**, base preparada para ampliar el banco de casos: registro seguro de paquetes, selección reproducible con dependencias completas, protección de partidas anteriores y documentación del formato. Sin cambios visuales ni nuevos casos publicados. Cinco casos piloto y **cuatro canales: correo, mensajería, teléfono e Instagram**. La atención presencial queda descartada. Todavía no es el banco definitivo.
 
 **Web de pruebas:** https://tcardell.github.io/atc-os/
 
@@ -43,7 +43,7 @@ npm run ci
 
 Además existen `tests/e2e_v05.py` y `tests/e2e_workflows_v05.py` para pruebas de navegador con Playwright. GitHub Actions ejecuta `npm run ci` y publica `dist/` en Pages al hacer push a `main`.
 
-Consulta [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para detalles de componentes, [docs/ROADMAP.md](docs/ROADMAP.md) para próximas mejoras y **[docs/PRODUCT_DECISIONS.md](docs/PRODUCT_DECISIONS.md)** para decisiones que no deben revertirse sin nueva autorización. El historial cronológico está en **[CHANGELOG.md](CHANGELOG.md)**.
+Consulta [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para detalles de componentes, **[docs/CASE_BANK.md](docs/CASE_BANK.md)** para incorporar paquetes de casos, [docs/ROADMAP.md](docs/ROADMAP.md) para próximas mejoras y **[docs/PRODUCT_DECISIONS.md](docs/PRODUCT_DECISIONS.md)** para decisiones que no deben revertirse sin nueva autorización. El historial cronológico está en **[CHANGELOG.md](CHANGELOG.md)**.
 
 ## Privacidad
 
@@ -88,3 +88,12 @@ Este proyecto público **no contiene datos reales de clientes ni alumnos**. Los 
 ## Mantenimiento v0.9.1
 
 Actualización de compatibilidad **sin cambios visuales ni nuevos canales**: bloquea copiar una carpeta dentro de sí misma o de una subcarpeta; verifica que los adjuntos sigan presentes y fuera de la Papelera antes de enviarlos; impide adjuntar tras finalizar la jornada; evita casos huérfanos o dependencias circulares; comprueba sintaxis JavaScript y relación de documentos recibidos con pedidos/clientes en CI. Las sesiones guardadas siguen usando el mismo formato y la misma clave de almacenamiento. Las decisiones activas de producto están en `docs/PRODUCT_DECISIONS.md`, no en los apartados históricos de versiones anteriores.
+
+## Preparación para ampliar el banco (v0.9.2)
+
+- Los casos se registran en **paquetes versionados y atómicos**: una situación mal definida no deja un paquete instalado a medias. `AtCOS.Data.audit()` examina coherencia de clientes, pedidos, traducciones, archivos y dependencias entre paquetes.
+- `ScenarioSelector.choose()` selecciona hasta 12 casos por jornada mediante una semilla reproducible, intentando representar los cuatro canales y respetando **cadenas de requisitos completas**. No añade casos que no puedan empezar o desbloquearse razonablemente en esa jornada.
+- Una jornada nueva conserva la relación con las versiones de paquetes usadas. Las partidas antiguas **no reciben casos nuevos automáticamente**; si una definición de caso falta temporalmente, su redacción se conserva en `parkedCases` y se recupera cuando regresa el mismo ID.
+- Se añaden pruebas con un banco simulado de 32 situaciones, sin insertar nuevas situaciones en la interfaz. **Seguimos con los cinco casos piloto.**
+
+Guía para crear el banco real: **[docs/CASE_BANK.md](docs/CASE_BANK.md)**.
