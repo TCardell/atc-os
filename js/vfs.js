@@ -51,7 +51,7 @@ AtCOS.VFS=(()=>{
  function saveAttachment(orderId){const original=receivedForOrder(orderId);if(!original)throw Error('No hay un archivo recibido disponible para este pedido');
   const duplicate=copy(original.id,DOWNLOADS);duplicate.source='download-copy';duplicate.receivedSource=original.id;log('download-copy',duplicate.name);persist();return duplicate}
 
- function attach(caseId,fileId){const s=E.caseState(caseId),n=node(fileId),d=E.caseData(caseId);if(!s||!n||n.type!=='file'||inTrash(n.id)||d?.channel!=='email'||s.complete||!s.revealed||E.get()?.finalized)throw Error('Selecciona un correo pendiente y un archivo');s.attachments=s.attachments||[];if(!s.attachments.includes(fileId))s.attachments.push(fileId);log('attach',n.name+' → '+caseId);persist();return n}
+ function attach(caseId,fileId){const s=E.caseState(caseId),n=node(fileId),d=E.caseData(caseId);if(!s||!n||n.type!=='file'||inTrash(n.id)||d?.channel!=='email'||s.complete||s.revealed===false||E.get()?.finalized)throw Error('Selecciona un correo pendiente y un archivo');s.attachments=s.attachments||[];if(!s.attachments.includes(fileId))s.attachments.push(fileId);log('attach',n.name+' → '+caseId);persist();return n}
  function detach(caseId,fileId){const s=E.caseState(caseId);if(s){s.attachments=(s.attachments||[]).filter(x=>x!==fileId);persist()}}
  function attachments(caseId){return (E.caseState(caseId)?.attachments||[]).map(node).filter(n=>n?.type==='file'&&!inTrash(n.id))}
  return {init,get,node,list,createFolder,createFile,rename,move,copy,restore,removeForever,path,saveAttachment,receivedForOrder,fileContent,inTrash,attach,detach,attachments,ROOT,DESKTOP,DOCS,ORDERS,CLIENTS,DOWNLOADS,RECEIVED,TRASH};
