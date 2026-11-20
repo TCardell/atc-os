@@ -2,7 +2,7 @@
 
 ## v0.4.0 — Migración a GitHub
 
-- Nueva marca **AtC/OS** y espacio de nombres `AtCOS`.
+- Nueva marca **AtC/OS**, logotipo de portada y favicon propios, y espacio de nombres `AtCOS`.
 - Separación de contenido en branding, traducciones, clientes, pedidos, manual y escenarios.
 - Registro `AtCOS.Data.addCases` para incorporar nuevos casos sin editar un fichero monolítico.
 - Guardado local con clave nueva y lectura de la clave de la v0.3 cuando procede.
