@@ -38,15 +38,20 @@ with sync_playwright() as p:
  page.evaluate("AtCOS.VFS.move(AtCOS.VFS.list('desktop')[0].id,'trash')")
  page.evaluate("AtCOS.VFS.restore(AtCOS.VFS.list('trash')[0].id)")
  assert page.evaluate("AtCOS.VFS.list('desktop').some(n=>n.name==='Proyecto Laura')")
- # simulated PDF from order -> actual PDF physically downloaded
+ # Copy an existing received document to the virtual Downloads folder.
+ # Open it in AtC/OS: no real browser download is permitted for VFS files.
  page.evaluate("AtCOS.VFS.saveAttachment('P-1847')")
  doc=page.evaluate("AtCOS.VFS.list('downloads')[0]")
  assert doc['mime']=='application/pdf'
- with page.expect_download() as dl:
-  page.evaluate("AtCOS.VFS.download(AtCOS.VFS.list('downloads')[0].id)")
- d=dl.value;out=ROOT/'tests'/'v05_client_attachment.pdf';d.save_as(str(out))
- assert '%PDF-' in out.read_bytes()[:10].decode()
- assert len(PdfReader(str(out)).pages)==1
+ assert page.evaluate("typeof AtCOS.VFS.download")=='undefined'
+ page.click('#taskStart');page.locator('#startAppGrid [data-os-open="directory"]').click()
+ page.locator('[data-vfs-folder="downloads"]').click()
+ page.locator('[data-vfs-open="'+doc['id']+'"]').click()
+ assert page.locator('.vfs-document-reader').count()==1
+ assert 'P-1847' in page.locator('.vfs-reader-body').inner_text()
+ assert page.locator('[data-vfs-download]').count()==0
+ page.locator('[data-vfs-cmd="closeviewer"]').click()
+ assert page.locator('.vfs-document-reader').count()==0
  # attach to email
  page.evaluate("AtCOS.VFS.attach('email01', AtCOS.VFS.list('downloads')[0].id)")
  assert page.evaluate("AtCOS.Engine.caseState('email01').attachments.length")==1
@@ -54,6 +59,7 @@ with sync_playwright() as p:
  page.click('#taskStart');page.locator('#startAppGrid [data-os-open="email"]').click()
  page.locator('[data-os-win="email"] [data-case="email01"]').first.click()
  assert page.locator('[data-os-win="email"] .email-queued-attachments').count()==1
+ page.locator('[data-mail-compose="email01"]').click()
  page.locator('[data-draft="email01"]').fill('Bon dia. Hem rebut la vostra consulta i revisarem les condicions abans de confirmar la data d’entrega.')
  page.locator('[data-send="email01"]').click()
  assert page.evaluate("AtCOS.Engine.caseState('email01').messages.filter(m=>m.role==='student')[0].attachments.length")==1
@@ -65,6 +71,6 @@ with sync_playwright() as p:
  path=ROOT/'tests'/'v05_report.pdf';dl.value.save_as(str(path))
  pdf=PdfReader(str(path));text='\n'.join(x.extract_text() for x in pdf.pages)
  assert 'María José Núria' in text and 'Gestió de fitxers' in text and 'tarjetas' in text
- print('OK',{'pdf_pages':len(pdf.pages),'filesystem_actions':page.evaluate('AtCOS.Engine.get().fileActions.length'),'saved_file':str(out),'js_errors':errors})
+ print('OK',{'pdf_pages':len(pdf.pages),'filesystem_actions':page.evaluate('AtCOS.Engine.get().fileActions.length'),'vfs_file_opened':doc['name'],'js_errors':errors})
  assert not errors
  browser.close()
