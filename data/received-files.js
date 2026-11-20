@@ -1,5 +1,5 @@
 /* Documentos realmente presentes en el sistema de archivos de la simulación.
-   El contenido es un documento didáctico consultable y descargable; no suplanta
+   El contenido es un documento didáctico consultable dentro de AtC/OS, sin descarga física; no suplanta
    los diseños originales de clientes reales. */
 (()=>{
  const L=AtCOS.Data.L;
