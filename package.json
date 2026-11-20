@@ -1,6 +1,6 @@
 {
   "name": "atc-os",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "private": true,
   "description": "AtC/OS — simulador educativo de atencion al cliente con escritorio virtual",
   "scripts": {
