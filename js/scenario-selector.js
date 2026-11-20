@@ -31,7 +31,7 @@ AtCOS.ScenarioSelector=(()=>{
   function add(item){
    const chain=closure(item);
    if(!chain||!chain.length||chosen.length+chain.length>cap)return false;
-   for(const c of chain){selected.add(c.id);chosen.push(c.id)}
+   for(const c of chain){selected.add(c.id);chosen.push(c)}
    return true;
   }
   // At least one immediately visible task is needed to begin the session.
