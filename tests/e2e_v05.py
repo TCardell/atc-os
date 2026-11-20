@@ -28,7 +28,7 @@ with sync_playwright() as p:
  print('DESKTOP',page.locator('#taskbarApps button').count(), 'icons',page.locator('#desktopIcons button').count())
  page.screenshot(path='tests/v05_desktop.png')
  assert page.locator('#taskbarApps button').count()==0
- assert page.locator('#desktopIcons .desktop-shortcut').count()==0
+ assert page.locator('#desktopIcons .desktop-shortcut').count()>=8
  page.click('#taskStart')
  assert page.locator('#startMenu:not([hidden])').count()==1
  page.screenshot(path='tests/v05_start.png')
