@@ -1,0 +1,21 @@
+/* AtC/OS v0.9: lectura de archivos DENTRO del escritorio, sin descargas al sistema anfitrión. */
+.vfs-app:has(.vfs-document-reader){grid-template-columns:154px minmax(0,1fr)!important}
+.vfs-app:has(.vfs-document-reader) .vfs-main{min-width:0;overflow:auto}
+.vfs-document-reader{min-height:470px;display:flex;flex-direction:column;background:var(--side);color:var(--ink)}
+.vfs-reader-toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:13px 18px;background:var(--surface);border-bottom:1px solid var(--border)}
+.vfs-reader-toolbar button{display:inline-flex;align-items:center;gap:7px;font-size:13px;min-height:38px}
+.vfs-reader-mode{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;font-weight:650}
+.vfs-reader-sheet{width:min(760px,calc(100% - 42px));margin:23px auto 30px;padding:29px 36px 37px;background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:0 12px 38px #0a234018}
+.vfs-reader-heading{display:flex;align-items:center;gap:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.vfs-reader-file-icon{display:grid;place-items:center;flex:none;width:65px;height:72px;color:var(--brand);background:color-mix(in srgb,var(--brand) 11%,var(--surface));border:1px solid color-mix(in srgb,var(--brand) 23%,var(--border));border-radius:14px}
+.vfs-reader-heading>div{min-width:0;flex:1}
+.vfs-reader-heading h2{font-size:clamp(17px,2vw,23px);line-height:1.3;overflow-wrap:anywhere;letter-spacing:-.025em;margin:4px 0 0}
+.vfs-reader-type{color:var(--brand);font-size:11px;font-weight:850;letter-spacing:.16em}
+.vfs-reader-meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin:16px 0 12px;color:var(--muted);font-size:12px}
+.vfs-reader-description{font-size:13px;line-height:1.6;color:var(--muted);border-radius:9px;background:var(--soft);padding:12px 14px;margin:14px 0 21px}
+.vfs-reader-body{font-size:15px;line-height:1.8}
+.vfs-reader-body pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;font:inherit;line-height:1.8;margin:0;color:var(--ink)}
+.vfs-preview .btn{display:inline-flex;align-items:center;gap:7px;margin-top:12px}
+body[data-os-theme="retro98"] .vfs-reader-sheet,body[data-os-theme="retro98"] .vfs-reader-file-icon,body[data-os-theme="retro98"] .vfs-reader-description{border-radius:0!important}
+@media(max-width:780px){.vfs-app:has(.vfs-document-reader){grid-template-columns:106px minmax(0,1fr)!important}.vfs-reader-sheet{width:calc(100% - 20px);margin:10px auto 20px;padding:18px 17px 22px}.vfs-reader-file-icon{width:48px;height:57px}.vfs-reader-heading{gap:11px}.vfs-reader-mode{display:none}}
+@media(max-width:520px){.vfs-app:has(.vfs-document-reader){grid-template-columns:minmax(0,1fr)!important}.vfs-app:has(.vfs-document-reader) .vfs-side{display:none}.vfs-reader-body{font-size:14px}.vfs-reader-heading h2{font-size:17px}}

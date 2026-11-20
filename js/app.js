@@ -53,7 +53,6 @@ AtCOS.App=(()=>{
    if(!doc){toast(tr('No consta ningún archivo recibido para este pedido.','No consta cap arxiu rebut per a aquesta comanda.'));return}
    if(el.dataset.caseFile){E.action(el.dataset.caseFile,'consultFile')}
    OS.open('directory');AtCOS.FileApp.openReceived(orderId);return}
-  if(el.dataset.vfsDownload){try{AtCOS.VFS.download(el.dataset.vfsDownload)}catch(error){toast(error.message)}return}
   if(el.dataset.vfsSaveOrder){try{const n=AtCOS.VFS.saveAttachment(el.dataset.vfsSaveOrder);toast(tr('Archivo guardado en Descargas: ','Fitxer desat a Baixades: ')+n.name);V.render()}catch(x){toast(x.message)}return}
   if(el.dataset.vfsDetach){AtCOS.VFS.detach(el.dataset.id,el.dataset.vfsDetach);V.render();return}
   if(el.dataset.vfsCmd||el.dataset.vfsFolder||el.dataset.vfsOpen){AtCOS.FileApp.act(el);return}

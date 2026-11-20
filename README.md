@@ -2,7 +2,7 @@
 
 **Simulador educativo de atención al cliente en una empresa de artes gráficas.** El alumnado trabaja en un escritorio virtual con correo, mensajería, teléfono, comentarios de Instagram, archivos y tareas. Todas las respuestas son redactadas libremente y se recogen en un informe PDF para revisión del profesorado. No hay evaluación semántica automática.
 
-**Estado:** **v0.8**, infraestructura de archivos recibidos y limpieza visual. Cinco casos piloto y **cuatro canales: correo, mensajería, teléfono e Instagram**. La atención presencial queda descartada. Todavía no es el banco definitivo.
+**Estado:** **v0.9**, visor interno de documentos e iconografía de Ajustes corregida. Cinco casos piloto y **cuatro canales: correo, mensajería, teléfono e Instagram**. La atención presencial queda descartada. Todavía no es el banco definitivo.
 
 **Web de pruebas:** https://tcardell.github.io/atc-os/
 
@@ -12,14 +12,14 @@
 2. Se eligen idioma (castellano/catalán), emoji y color de empresa, nombre ficticio y apariencia. El progreso se guarda localmente.
 3. El **escritorio comienza sin ventanas abiertas**, con accesos directos a las aplicaciones, archivos personales y una **Papelera** en la esquina inferior derecha (se pueden arrastrar archivos a ella). El botón **Inicio permanece centrado** en la barra inferior y la búsqueda está dentro del menú Inicio o en `Ctrl+K`. Las aplicaciones abiertas se muestran junto a Inicio.
 4. Se puede trabajar con ventanas redimensionables/acoplables, con proporciones rápidas **35/65, 50/50 y 65/35**, y el tamaño se **recuerda al cerrar y reabrir una aplicación durante la jornada**. Tareas abre de forma compacta. El correo ofrece **Responder** para desplegar un editor más ancho, sin mostrar direcciones corporativas ficticias como `@oficina.example`. Los correos se marcan como leídos al abrirlos.
-5. La aplicación **Archivos** permite crear carpetas y notas, mover, copiar, renombrar, enviar a la papelera, restaurar y descargar. También permite guardar adjuntos simulados desde Correo y volver a adjuntarlos.
+5. La aplicación **Archivos** permite crear carpetas y notas, mover, copiar, renombrar, enviar a la papelera, restaurar y **abrir documentos en un visor integrado**. No descarga al ordenador los documentos de práctica. Se pueden conservar copias dentro de la carpeta virtual *Descargas* y adjuntarlas a correos.
 6. **Inicio → Apagar** termina la jornada y abre el PDF. **Inicio → Reiniciar** descarta el progreso previa doble confirmación.
 
 El checklist de **Tareas pendientes** es opcional. Las marcas manuales no se consideran una calificación.
 
 ### Limitaciones
 
-El login no es una cuenta real; los datos se quedan en el navegador. Los archivos virtuales del piloto son documentos textuales simulados, y los PDF descargados son fichas válidas de demostración, no originales del cliente. La persistencia actual usa `localStorage`, por lo que no debe emplearse para archivos grandes. Para el banco definitivo se prevé IndexedDB. Los cambios en el ordenador físico solo ocurren cuando el usuario descarga un documento expresamente.
+El login no es una cuenta real; los datos se quedan en el navegador. Los archivos virtuales del piloto son documentos didácticos consultables dentro de AtC/OS, no archivos de diseño originales. No se descargan físicamente: solo el **informe PDF final del alumno** puede guardarse en el ordenador. La persistencia actual usa `localStorage`, por lo que no debe emplearse para archivos grandes. Para el banco definitivo se prevé IndexedDB. Los cambios en el ordenador físico solo ocurren cuando el usuario descarga un documento expresamente.
 
 ## Ejecutar en local
 
@@ -69,7 +69,7 @@ Esta versión se ha desarrollado sobre la **v0.5 del repositorio**, no reemplaza
 ## Novedades de v0.8
 
 - **Fuera Presencial:** eliminada la aplicación, el caso de mostrador y su registro como quinto canal. Queda asentado como decisión de producto en `docs/PRODUCT_DECISIONS.md`.
-- **Archivos recibidos reales dentro de la simulación:** el explorador incorpora la carpeta *Archivos recibidos*, con tres registros PDF de práctica ligados a los pedidos P-1847, P-2081 y P-3042. Se pueden consultar, mover, copiar, eliminar/restaurar, adjuntar y descargar como PDF.
+- **Archivos recibidos reales dentro de la simulación:** el explorador incorpora la carpeta *Archivos recibidos*, con tres registros PDF de práctica ligados a los pedidos P-1847, P-2081 y P-3042. Se pueden consultar, abrir dentro de la aplicación, mover, copiar, eliminar/restaurar y adjuntar; no se descargan al ordenador.
 - El caso de Júlia **ya tiene un archivo recibido en el sistema**: al pulsar «Consultar archivo recibido» desde Mensajes se abre ese documento en Archivos. El correo también puede enlazar a documentos de pedidos existentes, sin simular que venían adjuntos a ese email.
 - **Integridad:** el indicador de recepción depende del archivo presente, no de una ficha estática. Si se mueve a la Papelera no consta disponible; al restaurarlo vuelve a aparecer. Las partidas antiguas reciben una única migración, sin recrear documentos eliminados.
 - El icono vectorial de **Configuración** se ha rediseñado y la zona «Soltar en el escritorio» se ha trasladado arriba a la derecha, separada de la Papelera.
@@ -77,3 +77,10 @@ Esta versión se ha desarrollado sobre la **v0.5 del repositorio**, no reemplaza
 - Se elimina un botón sin función de la vista de archivos y se revisa la coherencia de la acción «Consultar archivo».
 
 **Conserva:** todos los demás módulos de la v0.7, los archivos propios creados por el alumno, su informe y las funciones de escritorio. El tema Windows 98 sigue como prototipo no activado.
+
+## Novedades de v0.9
+
+- **Visor de documentos dentro de Archivos:** pulsar un archivo abre su contenido en una vista de lectura amplia, con información del documento y opción de volver a la carpeta. Funciona con fichas PDF simuladas y notas de texto. Español y catalán.
+- **Eliminada por completo la descarga real de archivos virtuales:** el explorador deja de mostrar «Descargar al ordenador» y `AtCOS.VFS.download` deja de existir. La carpeta *Descargas* sigue siendo exclusivamente una carpeta **virtual del simulador**, útil para organizar copias y adjuntos.
+- **Se mantiene expresamente la exportación del informe PDF final**, que sí es el documento que el alumno debe entregar al profesor.
+- **Icono de Configuración redibujado desde cero:** engranaje SVG simétrico de ocho dientes y aro central, comprobado con un renderizado y test de límites 24×24.
