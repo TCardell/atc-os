@@ -1,6 +1,6 @@
 {
   "name": "atc-os",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "description": "AtC/OS — simulador educativo de atencion al cliente con escritorio virtual",
   "scripts": {
@@ -9,5 +9,7 @@
     "build": "node scripts/build.mjs",
     "ci": "npm run check && npm test && npm run build"
   },
-  "engines": {"node": ">=20"}
+  "engines": {
+    "node": ">=20"
+  }
 }
