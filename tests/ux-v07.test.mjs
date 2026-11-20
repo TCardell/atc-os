@@ -15,7 +15,7 @@ test('v0.7: login is centered, Start fixed at taskbar midpoint and search button
 test('v0.7: desktop apps and virtual recycle bin coexist',()=>{
  const index=read('index.html'),os=read('js/desktop.js'),app=read('js/app.js');
  assert.match(index,/id="desktopTrash"/);
- assert.match(os,/const shortcuts=\['email','messages','phone','desk','social','directory','tasks','settings','report'\]/);
+ assert.match(os,/const shortcuts=\['email','messages','phone','social','directory','tasks','settings','report'\]/);
  assert.match(os,/AtCOS\.VFS\.list\(AtCOS\.VFS\.DESKTOP\)/);
  assert.match(app,/data-os-trash/);
  assert.match(index,/data-vfs-drop="trash"/);
@@ -36,14 +36,12 @@ test('v0.7: email reply is explicitly opened and header contains no fabricated c
  assert.match(app,/V\.setMailCompose\(el\.dataset\.mailCompose,true\)/);
  assert.match(app,/V\.setMailCompose\(id,false\)/);
 });
-test('v0.7: in-person channel and existing business apps remain connected',()=>{
+test('v0.8: in-person channel stays removed',()=>{
  const registry=read('data/registry.js'),select=read('js/scenario-selector.js'),views=read('js/views.js');
- assert.match(registry,/\['email','messages','phone','desk','social'\]/);
- assert.match(select,/\['email','messages','phone','desk','social'\]/);
- assert.match(views,/function desk\(\)/);
- assert.match(views,/desk:\['desk','deskTitle','deskLead'\]/);
- assert.match(views,/desk,social,directory,report/);
- assert.match(read('data/scenarios/pilot.js'),/id:'desk01'/);
+ assert.match(registry,/\['email','messages','phone','social'\]/);
+ assert.match(select,/\['email','messages','phone','social'\]/);
+ assert.doesNotMatch(views,/function desk\(\)/);
+ assert.doesNotMatch(read('data/scenarios/pilot.js'),/id:'desk01'/);
 });
 test('v0.7: all modified JavaScript parses without syntax errors',()=>{
  for(const path of ['js/app.js','js/views.js','js/desktop.js','js/icons.js','js/engine.js','js/scenario-selector.js','data/registry.js','data/i18n.js','data/scenarios/pilot.js'])
