@@ -106,3 +106,9 @@
 .desk-turn p{font-size:14px;line-height:1.7;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
 .desk-app .reply-panel{padding:20px}
 @media(max-width:560px){.desk-stage{min-height:215px}.desk-stage-person{width:85px;height:85px;font-size:52px}.desk-dialogue{padding:12px}}
+
+/* Inicio permanece exactamente en el centro aunque se abran más aplicaciones. */
+.taskbar-center{left:0;right:0;top:0;bottom:0;max-width:none;transform:none;pointer-events:none}
+.taskbar-center #taskStart{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:auto}
+.taskbar-center .taskbar-apps{position:absolute;left:calc(50% + 30px);top:50%;transform:translateY(-50%);max-width:min(470px,calc(50% - 185px));pointer-events:auto;overflow-x:auto}
+@media(max-width:520px){.taskbar-center{left:0;right:0;max-width:none}.taskbar-center #taskStart{left:48%}.taskbar-center .taskbar-apps{left:calc(48% + 28px);max-width:calc(52% - 95px)}}
