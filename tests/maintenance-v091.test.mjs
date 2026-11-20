@@ -81,7 +81,8 @@ test('scenario selector rejects cycles and skips missing prerequisites',()=>{
 
 test('prohibited physical file download stays absent, final report remains',()=>{
  const vfs=read('js/vfs.js'),pdf=read('js/pdf.js');
- assert.doesNotMatch(vfs,/URL\\.createObjectURL|function download\\(/);
+ assert.ok(!vfs.includes('URL.createObjectURL'));
+ assert.ok(!vfs.includes('function download('));
  assert.match(read('js/views.js'),/pdfDownloadLink/);
  assert.ok(pdf.includes('AtCOS'));
 });
