@@ -1,4 +1,4 @@
-/** Initial six real scenarios. To extend, add another scenario file and load after registry.js. */
+/** Five current pilot scenarios. New content goes in separate versioned case packs. */
 (()=>{
  const L=AtCOS.Data.L;
 const cases=[
