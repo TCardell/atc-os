@@ -20,7 +20,7 @@ else{
   if(!data.clients[s.client])problems.push(`Unknown client for ${s.id}`);
   if(s.order&&!data.orders[s.order])problems.push(`Unknown order for ${s.id}`);
   if(typeof s.arrival==='string'&&!data.cases.some(v=>v.id===s.arrival))problems.push(`Unknown arrival dependency for ${s.id}`);
-  if(!['email','messages','phone','desk','social'].includes(s.channel))problems.push(`Unknown channel for ${s.id}`);
+  if(!['email','messages','phone','social'].includes(s.channel))problems.push(`Unknown channel for ${s.id}`);
   for(const k of ['title','subject'])if(s[k]&&!(typeof s[k]==='object'&&s[k].es&&s[k].ca))problems.push(`Untranslated ${k} in ${s.id}`);
   for(const [i,step] of s.steps.entries()){
    if(!step.incoming?.es||!step.incoming?.ca)problems.push(`Missing bilingual incoming: ${s.id}/${i}`);
