@@ -8,7 +8,6 @@ AtCOS.Icons=(()=>{
   email:'<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m3.6 7 8.4 6 8.4-6"/><path d="M4.5 17.5 9 14.5m10.5 3-4.5-3"/>',
   messages:'<path d="M20.6 11.4c0 4.8-4.1 8.4-9.1 8.4-1.4 0-2.5-.2-3.6-.6L3 21l1.4-4.2a8.3 8.3 0 0 1-2-5.4c0-4.8 4.1-8.7 9.1-8.7s9.1 3.9 9.1 8.7Z"/><path d="M7.5 11.5h8.3m-8.3-3h5.3m-5.3 6h6"/>',
   phone:'<path d="M6.8 3.1 10 6.8 8.3 9.2c1.5 3 3.5 5 6.5 6.5l2.5-1.7 3.6 3.4-1.3 3.1c-.5 1.1-1.6 1.4-2.8 1.1C10.7 19.6 4.5 13.3 2.4 7c-.3-1.1.1-2.2 1.1-2.7l3.3-1.2Z"/>',
-  desk:'<rect x="3" y="12" width="18" height="8" rx="1.6"/><path d="M6 12V8m12 4V8M7 8h10M12 4a2.4 2.4 0 1 1 0 4.8A2.4 2.4 0 0 1 12 4Z"/>',
   social:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.6" r="1" fill="currentColor" stroke="none"/>',
   directory:'<path d="M3 7a2 2 0 0 1 2-2h4l2.3 2.2H19a2 2 0 0 1 2 2V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M3 11h18"/>',
   tasks:'<path d="M9 6h12M9 12h12M9 18h12M3 6l1.5 1.5L7 4m-4 8 1.5 1.5L7 10m-4 8 1.5 1.5L7 16"/>',
@@ -45,7 +44,7 @@ AtCOS.Icons=(()=>{
   users:'<circle cx="9" cy="8" r="3"/><path d="M2.5 19a6.5 6.5 0 0 1 13 0M16 6.5a3 3 0 0 1 0 5.8M16.8 14a5.5 5.5 0 0 1 4.7 5"/>',
   package:'<path d="m12 2.7 9 4.8v9L12 21l-9-4.5v-9Z"/><path d="M3 7.5 12 12l9-4.5M12 12v9m-4.5-16L16.5 10"/>',
   book:'<path d="M12 20.5c-2-2-5-3-9-2.4V4.5c4-.5 7 0 9 2.3m0 13.7c2-2 5-3 9-2.4V4.5c-4-.5-7 0-9 2.3m0 0v13.7"/>',
-  settings:'<circle cx="12" cy="12" r="3"/><path d="m10 2.7-.5 2.5-2 .8-2.2-1.3-2 3.4 2 1.6v2.4l-2 1.5 2 3.4 2.2-1.2 2 .9.5 2.4h4l.5-2.4 2-.9 2.2 1.2 2-3.4-2-1.5V9.7l2-1.6-2-3.4-2.2 1.3-2-.8-.5-2.5Z"/>',
+  settings:'<path d="M10.2 2.6h3.6l.7 2.4 2 .8 2.2-1.1 2.5 2.5-1.2 2.2.8 2 2.4.7v3.7l-2.4.7-.8 2 1.2 2.2-2.5 2.5-2.2-1.2-2 .9-.7 2.4h-3.6l-.7-2.4-2-.9-2.2 1.2-2.5-2.5 1.2-2.2-.8-2-2.4-.7v-3.7l2.4-.7.8-2-1.2-2.2 2.5-2.5 2.2 1.1 2-.8.7-2.4Z"/><circle cx="12" cy="12" r="3.6" fill="none" stroke-width="2"/><circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none"/>',
   edit:'<path d="m4 16 10-10 4 4-10 10-5 1Z"/><path d="m12 8 4 4M15.5 4.5l1-1a2.5 2.5 0 0 1 3.5 3.5l-1 1"/>',
   alert:'<path d="M12 3 2.6 20h18.8Z"/><path d="M12 9v5m0 3v.5"/>',
   info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.3"/>',
@@ -59,7 +58,7 @@ AtCOS.Icons=(()=>{
   const content=shapes[name]||shapes.info;
   return `<svg class="ov-icon ${className}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${content}</svg>`;
  };
- const colors={dashboard:'#7561E9',email:'#3B83F5',messages:'#0EAA8D',phone:'#1B94C9',desk:'#E0A15E',tasks:'#4EA399',settings:'#8D6CCA',social:'#D950A7',directory:'#D1A04A',report:'#438CA9'};
+ const colors={dashboard:'#7561E9',email:'#3B83F5',messages:'#0EAA8D',phone:'#1B94C9',tasks:'#4EA399',settings:'#8D6CCA',social:'#D950A7',directory:'#D1A04A',report:'#438CA9'};
  const app=id=>`<span class="os-app-icon" style="--app-color:${colors[id]||'#6573de'}">${svg(id,{size:22})}</span>`;
  return {svg,app,colors};
 })();

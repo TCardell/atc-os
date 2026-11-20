@@ -90,23 +90,6 @@
 .email-client.is-composing .reply-panel .composer-hint{margin-right:auto}
 @container (max-width:560px){.email-client.is-composing .reply-panel{margin:0 9px 16px;padding:12px}}
 
-/* Canal presencial recuperado: escenario con avatar y diálogo único, sin repetir el mensaje. */
-.desk-app .pane-main{min-width:0}
-.desk-stage{position:relative;isolation:isolate;min-height:240px;overflow:hidden;padding:17px 25px 35px;background:linear-gradient(140deg,#23697c,#639ac3 51%,#b5c9db);color:#fff}
-.desk-stage:before{content:"";position:absolute;inset:auto -6% 39px -6%;height:65px;background:#f0dfbf;transform:skewY(-2deg);box-shadow:0 12px 25px #15364b65;z-index:-1}
-.desk-stage-header{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.05em}
-.desk-stage-header>span:first-child{display:flex;align-items:center;gap:8px}
-.desk-stage-person{display:grid;place-items:center;position:relative;margin:18px auto 5px;width:108px;height:108px;border-radius:50%;background:#f6f7fbeb;border:5px solid #ffffff88;box-shadow:0 10px 25px #0a2f4766;font-size:66px}
-.desk-stage-info{position:relative;text-align:center;display:grid;gap:5px;text-shadow:0 2px 9px #163346ba}
-.desk-stage-info strong{font-size:17px}.desk-stage-info small{font-size:12px}
-.desk-dialogue{padding:18px 22px;display:grid;gap:13px;max-height:330px;overflow:auto;background:var(--surface)}
-.desk-turn{padding:13px 15px;max-width:93%;border:1px solid var(--border);border-radius:14px 14px 14px 3px;background:var(--soft)}
-.desk-turn.mine{justify-self:end;border-radius:14px 14px 3px 14px;background:color-mix(in srgb,var(--brand) 13%,var(--surface));border-color:color-mix(in srgb,var(--brand) 27%,var(--border))}
-.desk-speaker{display:block;font-weight:800;font-size:12px;margin-bottom:6px;color:var(--muted)}
-.desk-turn p{font-size:14px;line-height:1.7;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
-.desk-app .reply-panel{padding:20px}
-@media(max-width:560px){.desk-stage{min-height:215px}.desk-stage-person{width:85px;height:85px;font-size:52px}.desk-dialogue{padding:12px}}
-
 /* Inicio permanece exactamente en el centro aunque se abran más aplicaciones. */
 .taskbar-center{left:0;right:0;top:0;bottom:0;max-width:none;transform:none;pointer-events:none}
 .taskbar-center #taskStart{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:auto}

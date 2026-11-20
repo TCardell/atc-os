@@ -1,3 +1,13 @@
+## v0.8.0 — Cuatro canales, recepción verificable de documentos (20-11-2026)
+
+- Se retira de nuevo la atención presencial, descartada en el diseño de producto: aplicación, escenario, iconos, selección, traducciones, CSS y pruebas.
+- Se crea `data/received-files.js` con tres documentos PDF didácticos vinculados a clientes y pedidos.
+- Nuevo directorio «Archivos recibidos», navegación y previsualización bilingüe. Se puede descargar y consultar el documento desde el canal que lo menciona.
+- Las consultas y descargas utilizan archivos reales del sistema virtual; no inventan un documento cuando se hace clic.
+- Migración idempotente de sesiones existentes: no repuebla archivos que el alumno haya movido a la Papelera.
+- Icono Configuración rediseñado y área de arrastre separada de Papelera.
+- Pruebas unitarias para los documentos, la migración, la eliminación/restauración y las regresiones visuales.
+
 ## v0.7.0 — Escritorio, legibilidad, correo y quinto canal (20-11-2026)
 
 - Inicio de sesión centrado, incluso con una partida guardada.

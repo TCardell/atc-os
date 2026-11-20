@@ -28,7 +28,7 @@ AtCOS.Engine=(()=>{
  function action(id,type){const c=caseState(id),d=caseData(id);if(!c||!c.revealed||c.complete||state.finalized)return null;
   let info=null;
   if(type==='consultOrder')info=d.order?AtCOS.Data.orders[d.order]:null;
-  if(type==='consultFile')info=d.order?{title:AtCOS.Data.orders[d.order].file,description:AtCOS.Data.orders[d.order].fileInfo}:null;
+  if(type==='consultFile'){const file=d.order?AtCOS.VFS?.receivedForOrder(d.order):null;info=file?{title:file.name,description:AtCOS.Data.orders[d.order].fileInfo,orderId:d.order,fileId:file.id}:{title:label('file'),description:label('noFile')}}
   if(type==='consultProduction')info=d.order?{title:{es:'Producción',ca:'Producció'},description:AtCOS.Data.orders[d.order].production}:null;
   if(type==='viewClient')info=AtCOS.Data.clients[d.client];
   if(type==='catalog')info=AtCOS.Data.catalog;

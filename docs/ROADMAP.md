@@ -13,3 +13,7 @@
 ## Estado v0.7 (noviembre de 2026)
 
 Se recuperaron los accesos del escritorio y el quinto canal (presencial), incorporando Papelera, botón Inicio centrado, tamaños de ventana recordados y editor de Correo desplegable. Los 6 casos siguen siendo pilotos; falta ampliar el banco, completar el tema retro98 y validar manualmente la experiencia incrustada en Google Sites.
+
+## Decisiones confirmadas v0.8
+
+Se descarta definitivamente la atención presencial del simulador actual; el banco futuro tendrá cuatro canales. Los documentos recibidos dejan de ser nombres en el pedido y se incorporan al sistema virtual con contenido, acceso desde el caso y estado de archivo verificable. El tema retro Windows 98 sigue como mejora futura, no publicada.

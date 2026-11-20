@@ -1,8 +1,8 @@
 # AtC/OS — Virtual Graphic Office
 
-**Simulador educativo de atención al cliente en una empresa de artes gráficas.** El alumnado trabaja en un escritorio virtual con correo, mensajería, teléfono, atención presencial, comentarios de Instagram, archivos y tareas. Todas las respuestas son redactadas libremente y se recogen en un informe PDF para revisión del profesorado. No hay evaluación semántica automática.
+**Simulador educativo de atención al cliente en una empresa de artes gráficas.** El alumnado trabaja en un escritorio virtual con correo, mensajería, teléfono, comentarios de Instagram, archivos y tareas. Todas las respuestas son redactadas libremente y se recogen en un informe PDF para revisión del profesorado. No hay evaluación semántica automática.
 
-**Estado:** **v0.7**, revisión de usabilidad. Seis casos piloto y cinco canales (incluida la atención presencial recuperada). Todavía no es el banco definitivo.
+**Estado:** **v0.8**, infraestructura de archivos recibidos y limpieza visual. Cinco casos piloto y **cuatro canales: correo, mensajería, teléfono e Instagram**. La atención presencial queda descartada. Todavía no es el banco definitivo.
 
 **Web de pruebas:** https://tcardell.github.io/atc-os/
 
@@ -65,3 +65,15 @@ Esta versión se ha desarrollado sobre la **v0.5 del repositorio**, no reemplaza
 - Atención presencial restaurada como quinto canal con un caso piloto relacionado con una llamada, sin duplicación del mensaje del cliente.
 
 **Importante:** `@oficina.example` ya no se muestra en la cabecera de Correo. Las direcciones de los clientes de prueba siguen siendo datos de simulación, no buzones reales.
+
+## Novedades de v0.8
+
+- **Fuera Presencial:** eliminada la aplicación, el caso de mostrador y su registro como quinto canal. Queda asentado como decisión de producto en `docs/PRODUCT_DECISIONS.md`.
+- **Archivos recibidos reales dentro de la simulación:** el explorador incorpora la carpeta *Archivos recibidos*, con tres registros PDF de práctica ligados a los pedidos P-1847, P-2081 y P-3042. Se pueden consultar, mover, copiar, eliminar/restaurar, adjuntar y descargar como PDF.
+- El caso de Júlia **ya tiene un archivo recibido en el sistema**: al pulsar «Consultar archivo recibido» desde Mensajes se abre ese documento en Archivos. El correo también puede enlazar a documentos de pedidos existentes, sin simular que venían adjuntos a ese email.
+- **Integridad:** el indicador de recepción depende del archivo presente, no de una ficha estática. Si se mueve a la Papelera no consta disponible; al restaurarlo vuelve a aparecer. Las partidas antiguas reciben una única migración, sin recrear documentos eliminados.
+- El icono vectorial de **Configuración** se ha rediseñado y la zona «Soltar en el escritorio» se ha trasladado arriba a la derecha, separada de la Papelera.
+- Los documentos PDF de clientes son **representaciones didácticas creadas para esta práctica**, con contenido técnico consultable. **No se hacen pasar por los archivos gráficos originales** (arte final) del cliente. Para usar PDF originales en el futuro habrá que incluir recursos reales junto a los escenarios.
+- Se elimina un botón sin función de la vista de archivos y se revisa la coherencia de la acción «Consultar archivo».
+
+**Conserva:** todos los demás módulos de la v0.7, los archivos propios creados por el alumno, su informe y las funciones de escritorio. El tema Windows 98 sigue como prototipo no activado.
