@@ -14,7 +14,7 @@ AtCOS.App=(()=>{
   $('mockPilotText').textContent=tr('05 gestiones piloto','05 gestions pilot');$('randomLabel').textContent=tr('Nombre al azar','Nom a l’atzar');$('randomCompanyBtn').title=tr('Generar nombre de empresa','Generar nom d’empresa');
   $('studentInput').placeholder=tr('Escribe tu nombre completo','Escriu el teu nom complet');$('companyInput').placeholder=tr('Ej.: Prisma Gràfic','P. ex.: Prisma Gràfic');$('startBtn').innerHTML=V.escape(s.start)+' <span>→</span>';$('resumeBtn').textContent=s.resume;$('privacyText').textContent=tr('Guardado automático local. No se envían tus respuestas a servidores.','Desament automàtic local. No s’envien les teves respostes a servidors.');
   $('setupNext').textContent=tr('Continuar →','Continuar →');$('setupBack').textContent=tr('← Volver','← Tornar');$('setupStyleLabel').textContent=tr('PASO 2 DE 2 · PERSONALIZACIÓN','PAS 2 DE 2 · PERSONALITZACIÓ');$('setupStyleTitle').textContent=tr('Personaliza tu oficina','Personalitza la teva oficina');$('setupStyleDescription').textContent=tr('Elige el idioma, la apariencia y la identidad de tu empresa.','Tria l’idioma, l’aparença i la identitat de la teva empresa.');
-  $('startScreen').querySelector('.welcome-brand > span:last-child').innerHTML='AtC/OS<br><small>OFICINA VIRTUAL · v0.6</small>';setMode(setup.mode);emojiPicker();
+  $('startScreen').querySelector('.welcome-brand > span:last-child').innerHTML='AtC/OS<br><small>OFICINA VIRTUAL · v0.8</small>';setMode(setup.mode);emojiPicker();
  }
  function toast(msg){const el=$('toast');el.textContent=msg;el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.hidden=true,4800)}
  function fillColors(){$('colorSwatches').innerHTML=Object.entries(D.names).map(([id,hex])=>`<button class="swatch" data-color="${id}" type="button" style="background:${hex}" aria-label="${id}" title="${id}"></button>`).join('')}
@@ -49,6 +49,11 @@ AtCOS.App=(()=>{
   if(el.hasAttribute('data-os-settings-save')){AtCOS.SettingsApp.save();return}
   if(el.hasAttribute('data-os-trash')){OS.open('directory');AtCOS.FileApp.act({dataset:{vfsFolder:AtCOS.VFS.TRASH}});return}
   if(el.dataset.vfsDesktop){OS.open('directory');AtCOS.FileApp.act({dataset:{vfsOpen:el.dataset.vfsDesktop}});return}
+  if(el.dataset.vfsOpenReceived){const orderId=el.dataset.vfsOpenReceived,doc=AtCOS.VFS.receivedForOrder(orderId);
+   if(!doc){toast(tr('No consta ningún archivo recibido para este pedido.','No consta cap arxiu rebut per a aquesta comanda.'));return}
+   if(el.dataset.caseFile){E.action(el.dataset.caseFile,'consultFile')}
+   OS.open('directory');AtCOS.FileApp.openReceived(orderId);return}
+  if(el.dataset.vfsDownload){try{AtCOS.VFS.download(el.dataset.vfsDownload)}catch(error){toast(error.message)}return}
   if(el.dataset.vfsSaveOrder){try{const n=AtCOS.VFS.saveAttachment(el.dataset.vfsSaveOrder);toast(tr('Archivo guardado en Descargas: ','Fitxer desat a Baixades: ')+n.name);V.render()}catch(x){toast(x.message)}return}
   if(el.dataset.vfsDetach){AtCOS.VFS.detach(el.dataset.id,el.dataset.vfsDetach);V.render();return}
   if(el.dataset.vfsCmd||el.dataset.vfsFolder||el.dataset.vfsOpen){AtCOS.FileApp.act(el);return}
