@@ -3,7 +3,7 @@ window.AtCOS=window.AtCOS||{};
 AtCOS.Desktop=(()=>{
  const E=AtCOS.Engine,D=AtCOS.Data,I=AtCOS.Icons;
  const $=id=>document.getElementById(id),h=s=>AtCOS.Views.escape(s);
- const apps=['email','messages','phone','desk','social','directory','tasks','settings','dashboard','report'];
+ const apps=['email','messages','phone','social','directory','tasks','settings','dashboard','report'];
  const win=new Map(),rememberedGeometry=new Map();let z=12,active='',startOpen=false,notesOpen=false;
  let splitRatio=50,activeSnapMenu=null,interaction=null;
  const text=(es,ca)=>E.get()?.lang==='ca'?ca:es;
@@ -68,7 +68,7 @@ AtCOS.Desktop=(()=>{
   hideSnapMenu();if(cmd==='min')minimize(id);else if(cmd==='max')maximize(id);else if(cmd==='close')close(id);else if(cmd==='split')split(id);else if(cmd==='restore')restore(id);else if(cmd==='left'||cmd==='right')snap(id,cmd);else if(/^ratio(35|50|65)$/.test(cmd)){splitRatio=Number(cmd.slice(5));updateDivider()}
  }
  function drawTaskbar(){const s=E.get();if(!s)return;
-  const counts={email:E.availableCount('email'),messages:E.availableCount('messages'),phone:E.availableCount('phone'),desk:E.availableCount('desk'),social:E.availableCount('social')};
+  const counts={email:E.availableCount('email'),messages:E.availableCount('messages'),phone:E.availableCount('phone'),social:E.availableCount('social')};
   $('taskbarApps').innerHTML=apps.filter(id=>win.has(id)).map(id=>{const w=win.get(id),count=counts[id]||0;return `<button class="taskbar-button ${w&&!w.minimized?'running':''} ${active===id&&!w?.minimized?'selected':''}" data-os-open="${id}" title="${h(name(id))}" aria-label="${h(name(id))}">${tagIcon(id)}${count?`<span class="taskbar-count">${count}</span>`:''}</button>`}).join('');
   $('taskMode').innerHTML=glyph(s.mode==='dark'?'sun':'moon',19);$('fakeTime').textContent=E.stamp();
   $('realClock').textContent=new Date().toLocaleDateString(s.lang==='ca'?'ca-ES':'es-ES',{day:'2-digit',month:'2-digit'});
@@ -77,7 +77,7 @@ AtCOS.Desktop=(()=>{
   $('desktopCompany').textContent=s.company;$('desktopStudent').textContent=s.student;$('desktopBrandEmoji').textContent=s.emoji||'△';
   $('desktopGreeting').textContent=text('MI OFICINA','LA MEVA OFICINA');
   // El escritorio vuelve a ofrecer accesos a aplicaciones, además de archivos personales.
-  const shortcuts=['email','messages','phone','desk','social','directory','tasks','settings','report'];
+  const shortcuts=['email','messages','phone','social','directory','tasks','settings','report'];
   $('desktopIcons').innerHTML=shortcuts.map(id=>`<button type="button" class="desktop-shortcut desktop-app" data-os-open="${id}" title="${h(name(id))}">${tagIcon(id)}<span>${h(name(id))}</span></button>`).join('')+AtCOS.VFS.list(AtCOS.VFS.DESKTOP).map(n=>`<button class="desktop-shortcut desktop-file" draggable="true" data-vfs-drag="${n.id}" data-vfs-desktop="${n.id}" title="${h(n.name)}">${glyph(n.type==='folder'?'folder':'file',33)}<span>${h(n.name)}</span></button>`).join('');
   const trash=$('desktopTrash'),count=AtCOS.VFS.list(AtCOS.VFS.TRASH).length;if(trash){trash.classList.toggle('is-filled',count>0);trash.title=text('Papelera','Paperera');trash.setAttribute('aria-label',trash.title);trash.innerHTML=glyph('trash',37)+`<span>${text('Papelera','Paperera')}${count?' ('+count+')':''}</span>`}
   $('startCompanyName').textContent=s.company;$('startStudentName').textContent=s.student;$('startUserBadge').textContent=s.emoji||'△';
