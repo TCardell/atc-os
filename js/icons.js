@@ -14,7 +14,7 @@ AtCOS.Icons=(()=>{
   report:'<path d="M7 2.7h7l5 5V21H5V4.7a2 2 0 0 1 2-2Z"/><path d="M14 2.7V8h5M8.5 12h7m-7 3.5h7m-7 3.3h5"/>',
   power:'<path d="M12 2v10M6 5.5a9 9 0 1 0 12 0"/>',
   trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6m4-6v6"/>',
-  start:'<rect x="3" y="3" width="7.5" height="7.5" rx="1.3"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.3"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.3"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.3"/>',
+  start:'<path d="M5.1 4.2c0-.6.5-1.1 1.1-1.1h4.5v7.3H3.4V6.2c0-.6.6-1.2 1.7-2Z" fill="currentColor" stroke="none"/><path d="M13.3 3.1h4.5c.6 0 1.1.5 1.1 1.1l1.7 2c.3.5 0 1.1-.6 1.1h-6.7V3.1Z" fill="currentColor" stroke="none"/><path d="M3.4 13.4h7.3v7.3H6.2c-.6 0-1.1-.5-1.1-1.1l-1.7-2.1v-4.1Z" fill="currentColor" stroke="none"/><path d="M13.3 13.4h7.3v4.1l-1.7 2.1c0 .6-.5 1.1-1.1 1.1h-4.5v-7.3Z" fill="currentColor" stroke="none"/>',
   search:'<circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 5 5"/>',
   bell:'<path d="M6.2 17.5h11.6l-1.3-2.4v-4.3a4.5 4.5 0 0 0-9 0v4.3l-1.3 2.4Z"/><path d="M10 20h4"/>',
   moon:'<path d="M20.7 14.5A8.8 8.8 0 0 1 9.5 3.3 8.8 8.8 0 1 0 20.7 14.5Z"/>',
