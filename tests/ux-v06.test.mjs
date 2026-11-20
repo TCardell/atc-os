@@ -28,7 +28,7 @@ test('v0.6: JS parses and email badges are anchored to their rows',()=>{
 test('v0.6: desktop files retained, apps launched from Start, split presets work',()=>{
  const desk=file('js/desktop.js');
  assert.match(desk,/AtCOS\.VFS\.list\(AtCOS\.VFS\.DESKTOP\)/);
- assert.doesNotMatch(desk,/const shortcuts=\['email'/);
+ assert.match(desk,/const shortcuts=\['email'/);
  assert.match(desk,/snap-menu-presets/);
  assert.match(desk,/ratio\(35\|50\|65\)/);
 });

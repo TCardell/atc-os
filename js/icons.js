@@ -8,13 +8,14 @@ AtCOS.Icons=(()=>{
   email:'<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m3.6 7 8.4 6 8.4-6"/><path d="M4.5 17.5 9 14.5m10.5 3-4.5-3"/>',
   messages:'<path d="M20.6 11.4c0 4.8-4.1 8.4-9.1 8.4-1.4 0-2.5-.2-3.6-.6L3 21l1.4-4.2a8.3 8.3 0 0 1-2-5.4c0-4.8 4.1-8.7 9.1-8.7s9.1 3.9 9.1 8.7Z"/><path d="M7.5 11.5h8.3m-8.3-3h5.3m-5.3 6h6"/>',
   phone:'<path d="M6.8 3.1 10 6.8 8.3 9.2c1.5 3 3.5 5 6.5 6.5l2.5-1.7 3.6 3.4-1.3 3.1c-.5 1.1-1.6 1.4-2.8 1.1C10.7 19.6 4.5 13.3 2.4 7c-.3-1.1.1-2.2 1.1-2.7l3.3-1.2Z"/>',
+  desk:'<rect x="3" y="12" width="18" height="8" rx="1.6"/><path d="M6 12V8m12 4V8M7 8h10M12 4a2.4 2.4 0 1 1 0 4.8A2.4 2.4 0 0 1 12 4Z"/>',
   social:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.6" r="1" fill="currentColor" stroke="none"/>',
   directory:'<path d="M3 7a2 2 0 0 1 2-2h4l2.3 2.2H19a2 2 0 0 1 2 2V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M3 11h18"/>',
   tasks:'<path d="M9 6h12M9 12h12M9 18h12M3 6l1.5 1.5L7 4m-4 8 1.5 1.5L7 10m-4 8 1.5 1.5L7 16"/>',
   report:'<path d="M7 2.7h7l5 5V21H5V4.7a2 2 0 0 1 2-2Z"/><path d="M14 2.7V8h5M8.5 12h7m-7 3.5h7m-7 3.3h5"/>',
   power:'<path d="M12 2v10M6 5.5a9 9 0 1 0 12 0"/>',
   trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6m4-6v6"/>',
-  start:'<rect x="3" y="3" width="7.5" height="7.5" rx="1.3"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.3"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.3"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.3"/>',
+  start:'<path d="M5.1 4.2c0-.6.5-1.1 1.1-1.1h4.5v7.3H3.4V6.2c0-.6.6-1.2 1.7-2Z" fill="currentColor" stroke="none"/><path d="M13.3 3.1h4.5c.6 0 1.1.5 1.1 1.1l1.7 2c.3.5 0 1.1-.6 1.1h-6.7V3.1Z" fill="currentColor" stroke="none"/><path d="M3.4 13.4h7.3v7.3H6.2c-.6 0-1.1-.5-1.1-1.1l-1.7-2.1v-4.1Z" fill="currentColor" stroke="none"/><path d="M13.3 13.4h7.3v4.1l-1.7 2.1c0 .6-.5 1.1-1.1 1.1h-4.5v-7.3Z" fill="currentColor" stroke="none"/>',
   search:'<circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 5 5"/>',
   bell:'<path d="M6.2 17.5h11.6l-1.3-2.4v-4.3a4.5 4.5 0 0 0-9 0v4.3l-1.3 2.4Z"/><path d="M10 20h4"/>',
   moon:'<path d="M20.7 14.5A8.8 8.8 0 0 1 9.5 3.3 8.8 8.8 0 1 0 20.7 14.5Z"/>',
@@ -58,7 +59,7 @@ AtCOS.Icons=(()=>{
   const content=shapes[name]||shapes.info;
   return `<svg class="ov-icon ${className}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${content}</svg>`;
  };
- const colors={dashboard:'#7561E9',email:'#3B83F5',messages:'#0EAA8D',phone:'#1B94C9',tasks:'#4EA399',settings:'#8D6CCA',social:'#D950A7',directory:'#D1A04A',report:'#438CA9'};
+ const colors={dashboard:'#7561E9',email:'#3B83F5',messages:'#0EAA8D',phone:'#1B94C9',desk:'#E0A15E',tasks:'#4EA399',settings:'#8D6CCA',social:'#D950A7',directory:'#D1A04A',report:'#438CA9'};
  const app=id=>`<span class="os-app-icon" style="--app-color:${colors[id]||'#6573de'}">${svg(id,{size:22})}</span>`;
  return {svg,app,colors};
 })();

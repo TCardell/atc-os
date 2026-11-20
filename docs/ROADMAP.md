@@ -9,3 +9,7 @@
 - **v1.0 — Aula:** estabilidad y documentación para el alumnado.
 
 **Cada versión solo cuenta como implementada después de pruebas y publicación.** La arquitectura separa deliberadamente el sistema operativo del motor de simulación.
+
+## Estado v0.7 (noviembre de 2026)
+
+Se recuperaron los accesos del escritorio y el quinto canal (presencial), incorporando Papelera, botón Inicio centrado, tamaños de ventana recordados y editor de Correo desplegable. Los 6 casos siguen siendo pilotos; falta ampliar el banco, completar el tema retro98 y validar manualmente la experiencia incrustada en Google Sites.
