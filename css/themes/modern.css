@@ -1,0 +1,2 @@
+/* Tema moderno activo; componentes principales en app.css, desktop.css y system-v05.css. */
+body[data-os-theme="modern"]{--os-window-radius:17px;--os-control-radius:10px;--os-border-width:1px}
