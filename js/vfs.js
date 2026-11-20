@@ -40,7 +40,9 @@ AtCOS.VFS=(()=>{
  function descendant(parent,target){for(let p=node(target);p;p=node(p.parent)){if(p.id===parent)return true}return false}
  function move(id,parent){const n=node(id);checkParent(parent);if(!n||isProtected(id)||id===parent||descendant(id,parent))throw Error('No se puede mover aquí');if(n.parent===TRASH&&parent!==TRASH)delete n.originalParent;if(parent===TRASH&&n.parent!==TRASH)n.originalParent=n.parent;n.parent=parent;n.name=unique(n.name,parent,id);log(parent===TRASH?'trash':'move',n.name+' → '+path(parent));persist();return n}
  function restore(id){const n=node(id);if(!n||n.parent!==TRASH)throw Error('El archivo no está en la papelera');return move(id,node(n.originalParent)?.type==='folder'?n.originalParent:DOCS)}
- function copy(id,parent){const n=node(id);checkParent(parent);if(!n||isProtected(id))throw Error('No se puede copiar este elemento');const c={...n,id:uid(),parent,name:unique(n.name,parent),createdAt:new Date().toISOString()};delete c.originalParent;get().nodes.push(c);if(n.type==='folder'){for(const child of list(id))copy(child.id,c.id)}persist();return c}
+ function copy(id,parent){const n=node(id);checkParent(parent);if(!n||isProtected(id))throw Error('No se puede copiar este elemento');
+  // Evita ciclos y recursión infinita al pegar una carpeta dentro de sí misma.
+  if(n.type==='folder'&&descendant(id,parent))throw Error('No se puede copiar una carpeta dentro de sí misma');const c={...n,id:uid(),parent,name:unique(n.name,parent),createdAt:new Date().toISOString()};delete c.originalParent;get().nodes.push(c);if(n.type==='folder'){for(const child of list(id))copy(child.id,c.id)}persist();return c}
  function removeForever(id){if(isProtected(id))throw Error('No se puede eliminar una carpeta del sistema');for(const child of list(id))removeForever(child.id);const i=get().nodes.findIndex(n=>n.id===id);if(i>=0)get().nodes.splice(i,1);persist()}
  function path(id){const parts=[];let p=node(id);let limit=0;while(p&&p.id!==ROOT&&limit++<100){parts.unshift(p.name);p=node(p.parent)}return '/'+parts.join('/')}
  function inTrash(id){let p=node(id),count=0;while(p&&count++<120){if(p.id===TRASH)return true;p=node(p.parent)}return false}
@@ -49,8 +51,8 @@ AtCOS.VFS=(()=>{
  function saveAttachment(orderId){const original=receivedForOrder(orderId);if(!original)throw Error('No hay un archivo recibido disponible para este pedido');
   const duplicate=copy(original.id,DOWNLOADS);duplicate.source='download-copy';duplicate.receivedSource=original.id;log('download-copy',duplicate.name);persist();return duplicate}
 
- function attach(caseId,fileId){const s=E.caseState(caseId),n=node(fileId),d=E.caseData(caseId);if(!s||!n||n.type!=='file'||inTrash(n.id)||d?.channel!=='email'||s.complete)throw Error('Selecciona un correo pendiente y un archivo');s.attachments=s.attachments||[];if(!s.attachments.includes(fileId))s.attachments.push(fileId);log('attach',n.name+' → '+caseId);persist();return n}
+ function attach(caseId,fileId){const s=E.caseState(caseId),n=node(fileId),d=E.caseData(caseId);if(!s||!n||n.type!=='file'||inTrash(n.id)||d?.channel!=='email'||s.complete||!s.revealed||E.get()?.finalized)throw Error('Selecciona un correo pendiente y un archivo');s.attachments=s.attachments||[];if(!s.attachments.includes(fileId))s.attachments.push(fileId);log('attach',n.name+' → '+caseId);persist();return n}
  function detach(caseId,fileId){const s=E.caseState(caseId);if(s){s.attachments=(s.attachments||[]).filter(x=>x!==fileId);persist()}}
- function attachments(caseId){return (E.caseState(caseId)?.attachments||[]).map(node).filter(Boolean)}
+ function attachments(caseId){return (E.caseState(caseId)?.attachments||[]).map(node).filter(n=>n?.type==='file'&&!inTrash(n.id))}
  return {init,get,node,list,createFolder,createFile,rename,move,copy,restore,removeForever,path,saveAttachment,receivedForOrder,fileContent,inTrash,attach,detach,attachments,ROOT,DESKTOP,DOCS,ORDERS,CLIENTS,DOWNLOADS,RECEIVED,TRASH};
 })();
