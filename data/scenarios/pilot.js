@@ -20,10 +20,6 @@ const cases=[
   ]},
   {id:'phone02',channel:'phone',client:'laura',order:'P-1847',title:L('Laura llama para ampliar la consulta','Na Laura telefona per ampliar la consulta'),arrival:'email01',kind:'call',steps:[
    {incoming:L('Hola, soy Laura, del Estudio Prisma. Llamo por el pedido P-1847. Además del cambio de teléfono, quería saber si puedo recoger las tarjetas personalmente en lugar de recibirlas por mensajería.','Hola, som na Laura, d’Estudio Prisma. Telefon per la comanda P-1847. A més del canvi de telèfon, volia saber si puc recollir les targetes personalment en lloc de rebre-les per missatgeria.'),prompt:L('Continúa la atención de la misma clienta por teléfono.','Continua l’atenció de la mateixa clienta per telèfon.')}
-  ]},
-  {id:'desk01',channel:'desk',client:'bernat',order:'P-3042',title:L('Recogida de cartas en el mostrador','Recollida de cartes al taulell'),arrival:'phone01',kind:'desk',steps:[
-   {incoming:L('Buenos días. Soy Bernat, del Cafè Marès. Llamé antes por las 200 cartas del restaurante, pedido P-3042. ¿Podéis comprobar si están preparadas para recoger?', 'Bon dia. Som en Bernat, del Cafè Marès. He telefonat abans per les 200 cartes del restaurant, comanda P-3042. Podeu comprovar si estan preparades per recollir?'),prompt:L('Atiende a Bernat en el mostrador. Comprueba el pedido antes de confirmar la entrega.','Atén en Bernat al taulell. Comprova la comanda abans de confirmar el lliurament.')},
-   {incoming:L('Antes de llevármelas, mi compañera quiere que compruebe si están plastificadas en mate. ¿Podríamos verificarlo?', 'Abans d’endur-me-les, la meva companya vol que comprovi si estan plastificades en mat. Ho podem verificar?'),prompt:L('Explica con claridad cómo verificarías las características y entregarías el pedido.','Explica amb claredat com comprovaries les característiques i lliuraries la comanda.')}
   ]}
  ];
  AtCOS.Data.addPack({id:'pilot',version:3,cases});
