@@ -43,7 +43,7 @@ AtCOS.Engine=(()=>{
  function send(id,text){const c=caseState(id),d=caseData(id);if(!c||!c.revealed||c.complete||state.finalized)return {ok:false};
   const body=String(text||'').trim();if(body.length<12)return {ok:false,message:label('notEnough')};
   const at=stamp();const step=d.steps[c.step];if(!step)return {ok:false};
-  c.messages.push({role:'student',text:body,at,kind:step.requiresFlag?'private':d.kind,attachments:(c.attachments||[]).map(fileId=>AtCOS.VFS?.node(fileId)?.name).filter(Boolean)});c.attachments=[];c.draft='';c.step+=1;c.lastLookup=null;advance(9);
+  c.messages.push({role:'student',text:body,at,kind:step.requiresFlag?'private':d.kind,attachments:(AtCOS.VFS?.attachments(id)||[]).map(file=>file.name)});c.attachments=[];c.draft='';c.step+=1;c.lastLookup=null;advance(9);
   while(c.step<d.steps.length&&d.steps[c.step].requiresFlag&&!c.flags[d.steps[c.step].requiresFlag])c.step++;
   if(c.step>=d.steps.length){c.complete=true;c.finishedAt=now();event('resolved',loc(d.title),id)}
   else {const next=d.steps[c.step];c.messages.push({role:next.requiresFlag?'system':'client',text:next.incoming,at:stamp(),kind:next.requiresFlag?'private':d.kind});event('followup',loc(d.title),id)}

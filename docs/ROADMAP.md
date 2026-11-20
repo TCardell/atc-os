@@ -1,19 +1,27 @@
-# Hoja de ruta AtC/OS
+# Hoja de ruta AtC/OS — estado vivo
 
-- **v0.4 — Publicación en GitHub:** primera base funcional con escritorio virtual, cinco canales y seis casos piloto.
-- **v0.5 — Núcleo de sistema operativo:** arranque, login local, configuración inicial, escritorio vacío, barra dinámica, Inicio con apagar/reiniciar, Tareas, Configuración y filesystem virtual inicial. Eliminada por completo la atención presencial; quedan cinco casos piloto en cuatro canales.
-- **v0.6 — Aplicaciones completas:** separar las vistas de cada canal, correo más profundo (adjuntos y conversaciones), aplicaciones independientes de Pedidos y Clientes, accesibilidad y navegación.
-- **v0.7 — Banco educativo:** 25–30 casos etiquetados con dificultad, RA, dependencias y variedad; jornadas de 10–12 seleccionadas por reglas equilibradas.
-- **v0.8 — Sistema documental:** IndexedDB para archivos reales y gestión de formatos binarios, previsualización gráfica e historial de encargos.
-- **v0.9 — Validación docente:** informes más amplios, pruebas exhaustivas bilingües y ensayos en ordenadores de aula y en Google Sites.
-- **v1.0 — Aula:** estabilidad y documentación para el alumnado.
+**Estado actual: v0.9.1 (20 de noviembre de 2026).** Para evitar regresiones, las decisiones vigentes se mantienen en [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) y el historial completo en [CHANGELOG.md](../CHANGELOG.md). Este documento recoge **qué existe y qué queda pendiente**, no promesas asociadas a versiones antiguas.
 
-**Cada versión solo cuenta como implementada después de pruebas y publicación.** La arquitectura separa deliberadamente el sistema operativo del motor de simulación.
+## Funcionalidad entregada
 
-## Estado v0.7 (noviembre de 2026)
+- **v0.4–v0.5:** primer simulador modular, sistema operativo virtual, arranque, sesión local, ventanas, Tareas e infraestructura de Archivos.
+- **v0.6:** configuración centrada, progreso de arranque, mejora del indicador del correo, distribución de ventanas e infraestructura de temas.
+- **v0.7:** ajustes de escritorio y barra de tareas, Papelera, tamaño de ventanas recordado durante la jornada, botón Responder y legibilidad. Se probó temporalmente la atención presencial, **revertida después**.
+- **v0.8:** cuatro canales definitivos (correo, mensajería, teléfono e Instagram), carpeta de archivos recibidos, documentos vinculados realmente a cliente/pedido y migración de partidas.
+- **v0.9:** visor interno de documentos, supresión de descargas físicas de archivos de práctica, icono de Ajustes corregido; sigue descargándose únicamente el informe PDF del alumno.
+- **v0.9.1:** mantenimiento preventivo de copias de carpetas, adjuntos, dependencias de escenarios, validaciones CI y documentación. No cambia la interfaz ni el contenido piloto.
 
-Se recuperaron los accesos del escritorio y el quinto canal (presencial), incorporando Papelera, botón Inicio centrado, tamaños de ventana recordados y editor de Correo desplegable. Los 6 casos siguen siendo pilotos; falta ampliar el banco, completar el tema retro98 y validar manualmente la experiencia incrustada en Google Sites.
+**Hoy existen cinco casos piloto y cuatro canales.** Las decisiones de descartar atención presencial y de mantener las descargas físicas limitadas al informe final son obligatorias en próximos desarrollos.
 
-## Decisiones confirmadas v0.8
+## Trabajo pendiente — sin asignar aún a versión
 
-Se descarta definitivamente la atención presencial del simulador actual; el banco futuro tendrá cuatro canales. Los documentos recibidos dejan de ser nombres en el pedido y se incorporan al sistema virtual con contenido, acceso desde el caso y estado de archivo verificable. El tema retro Windows 98 sigue como mejora futura, no publicada.
+1. **Banco docente definitivo:** diseñar y revisar entre 25 y 30 situaciones bilingües, con dificultad, RA, relaciones entre clientes y pedidos; seleccionar jornadas variadas de 10–12 según reglas verificables.
+2. **Validación en el aula:** ensayar en Google Sites y ordenadores reales, revisar tamaños de ventanas, descarga del informe, accesibilidad y comportamiento de almacenamiento local.
+3. **Motor y arquitectura de aplicaciones:** separar gradualmente `js/views.js` por canales, mejorar los presupuestos y los expedientes de pedidos sin romper sus identificadores.
+4. **Archivos más complejos:** estudiar IndexedDB y previsualizaciones auténticas con migración compatible; no almacenar binarios grandes en `localStorage`.
+5. **Tema retro Windows 98:** terminar todos los componentes de escritorio y aplicaciones antes de publicar un selector. El CSS actual solo es un prototipo técnico.
+6. **Evaluación docente:** mejorar informes y pruebas bilingües sin atribuir a un motor local comprensión automática del texto libre.
+
+## Normas de publicación
+
+Trabajar desde el último `main` de [TCardell/atc-os](https://github.com/TCardell/atc-os) en una rama independiente, actualizar tests y documentación, exigir `npm run ci` y revisión de la pull request. La publicación de GitHub Pages ocurre al fusionar en `main`. No recuperar funciones descartadas solamente porque aparezcan en un historial antiguo.

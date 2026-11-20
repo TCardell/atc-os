@@ -1,3 +1,13 @@
+## v0.9.1 — Mantenimiento preventivo e integridad (20-11-2026)
+
+- El sistema virtual impide copiar una carpeta dentro de sí misma o de una subcarpeta, evitando recursiones sin fin y árboles corruptos. Las copias normales se mantienen.
+- Los adjuntos asociados a correos solo se incluyen en el envío si todavía existen y están fuera de la Papelera. Restaurarlos vuelve a permitir consultarlos; no se pueden adjuntar archivos después de finalizar la jornada.
+- El selector de situaciones detecta dependencias circulares y omite casos cuyos requisitos no existen. Conserva la selección reproducible y la diversidad por canal.
+- El validador CI analiza la sintaxis de todos los JavaScript, y revisa dependencias de casos y relación entre archivos recibidos, pedidos y clientes.
+- Nuevas pruebas de regresión sin cambiar los cuatro canales, el flujo PDF, el visor, las ventanas ni el diseño.
+- README, documentación técnica y hoja de ruta actualizados para diferenciar historial, decisiones vigentes y pendientes reales.
+- Sin cambios en la estructura persistida de las partidas ni en las preferencias del alumnado.
+
 ## v0.9.0 — Visor interno e iconografía redibujada (20-11-2026)
 
 - Los ficheros de la oficina se abren dentro de Archivos, en un lector más amplio con navegación de vuelta; no hay descarga física de archivos de práctica.
