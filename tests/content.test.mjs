@@ -9,7 +9,7 @@ const scripts=[...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"[^>]*><\/script>/g
 const sandbox={window:{},console};sandbox.AtCOS=sandbox.window.AtCOS={};
 for(const file of scripts.filter(s=>s.startsWith('data/')))vm.runInNewContext(fs.readFileSync(path.join(root,file),'utf8'),sandbox,{filename:file});
 const D=sandbox.AtCOS.Data;
-test('base data has six pilot cases and 5 channel types',()=>{assert.equal(D.cases.length,6);assert.equal(new Set(D.cases.map(x=>x.channel)).size,5)});
+test('base data has five pilot cases and 4 virtual channels',()=>{assert.equal(D.cases.length,5);assert.equal(new Set(D.cases.map(x=>x.channel)).size,4);assert.ok(!D.cases.some(x=>x.channel==='desk'))});
 test('scenario ids are unique and cross-reference real clients and orders',()=>{
  assert.equal(new Set(D.cases.map(x=>x.id)).size,D.cases.length);
  for(const c of D.cases){assert.ok(D.clients[c.client],c.id);assert.ok(!c.order||D.orders[c.order],c.id)}

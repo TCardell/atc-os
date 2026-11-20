@@ -1,14 +1,18 @@
-# Historial de AtC/OS
+# Historial de versiones
 
-## v0.4.0 — Migración a GitHub
+## v0.5.0 — 20/11/2026
 
-- Nueva marca **AtC/OS**, logotipo de portada y favicon propios, y espacio de nombres `AtCOS`.
-- Separación de contenido en branding, traducciones, clientes, pedidos, manual y escenarios.
-- Registro `AtCOS.Data.addCases` para incorporar nuevos casos sin editar un fichero monolítico.
-- Guardado local con clave nueva y lectura de la clave de la v0.3 cuando procede.
-- Validaciones Node sin dependencias, pruebas, documentación y GitHub Actions / Pages.
-- Conserva la experiencia funcional del piloto v0.3: cinco canales, seis escenarios, ventanas, búsqueda, guardado e informe PDF.
+- Nuevo arranque de sistema, pantalla de login simulada, recuperación de perfil local y asistente de primera configuración.
+- Escritorio vacío al iniciar, accesos directos y barra de tareas solo con aplicaciones abiertas.
+- Menú de energía: apagar y abrir informe; reiniciar con doble confirmación.
+- Nueva aplicación de Tareas pendientes y ajustes de personalización dentro del sistema.
+- Eliminado indicador permanente de guardado. Mensaje de bienvenida mediante aviso temporal.
+- Eliminada la atención presencial del catálogo, las vistas y el lanzador.
+- Primer filesystem virtual operativo con carpetas, escritorio, descargas, papelera, movimiento, renombrado, duplicado, documentos de ejemplo y adjuntos al correo.
+- Informe PDF con adjuntos enviados y acciones sobre archivos.
+- Selector de escenarios determinista con cuotas por canal y soporte de dependencias. Migración de guardado basada en IDs, no en el tamaño del catálogo.
+- Tests de selección del banco y dos pruebas completas de interfaz y PDF.
 
-## v0.3 — Oficina Virtual (piloto)
+## v0.4.0 — 20/11/2026
 
-- Iconos SVG propios, ventanas redimensionables y acoplamiento, barra inferior, Inicio y aplicaciones de atención al cliente.
+Primera publicación en GitHub Pages del piloto modular de AtC/OS.

@@ -3,8 +3,8 @@ window.AtCOS=window.AtCOS||{};
 AtCOS.Desktop=(()=>{
  const E=AtCOS.Engine,D=AtCOS.Data,I=AtCOS.Icons;
  const $=id=>document.getElementById(id),h=s=>AtCOS.Views.escape(s);
- const apps=['dashboard','email','messages','phone','desk','social','directory','report'];
- const win=new Map();let z=12,active='dashboard',startOpen=false,notesOpen=false;
+ const apps=['email','messages','phone','social','directory','tasks','settings','dashboard','report'];
+ const win=new Map();let z=12,active='',startOpen=false,notesOpen=false;
  let splitRatio=50,activeSnapMenu=null,interaction=null;
  const text=(es,ca)=>E.get()?.lang==='ca'?ca:es;
  function name(id){const c=D.labels[E.get()?.lang||'es'];return c[id]||id}
@@ -61,15 +61,16 @@ AtCOS.Desktop=(()=>{
   hideSnapMenu();if(cmd==='min')minimize(id);else if(cmd==='max')maximize(id);else if(cmd==='close')close(id);else if(cmd==='split')split(id);else if(cmd==='restore')restore(id);else if(cmd==='left'||cmd==='right')snap(id,cmd);
  }
  function drawTaskbar(){const s=E.get();if(!s)return;
-  const counts={email:E.availableCount('email'),messages:E.availableCount('messages'),phone:E.availableCount('phone'),desk:E.availableCount('desk'),social:E.availableCount('social')};
-  $('taskbarApps').innerHTML=apps.map(id=>{const w=win.get(id),count=counts[id]||0;return `<button class="taskbar-button ${w&&!w.minimized?'running':''} ${active===id&&!w?.minimized?'selected':''}" data-os-open="${id}" title="${h(name(id))}" aria-label="${h(name(id))}">${tagIcon(id)}${count?`<span class="taskbar-count">${count}</span>`:''}</button>`}).join('');
-  $('saveIndicator').textContent=D.labels[s.lang][AtCOS.Store.status()?'saved':'notSaved'];$('taskMode').innerHTML=glyph(s.mode==='dark'?'sun':'moon',19);$('fakeTime').textContent=E.stamp();
+  const counts={email:E.availableCount('email'),messages:E.availableCount('messages'),phone:E.availableCount('phone'),social:E.availableCount('social')};
+  $('taskbarApps').innerHTML=apps.filter(id=>win.has(id)).map(id=>{const w=win.get(id),count=counts[id]||0;return `<button class="taskbar-button ${w&&!w.minimized?'running':''} ${active===id&&!w?.minimized?'selected':''}" data-os-open="${id}" title="${h(name(id))}" aria-label="${h(name(id))}">${tagIcon(id)}${count?`<span class="taskbar-count">${count}</span>`:''}</button>`}).join('');
+  $('taskMode').innerHTML=glyph(s.mode==='dark'?'sun':'moon',19);$('fakeTime').textContent=E.stamp();
   $('realClock').textContent=new Date().toLocaleDateString(s.lang==='ca'?'ca-ES':'es-ES',{day:'2-digit',month:'2-digit'});
  }
  function renderShortcuts(){const s=E.get();if(!s)return;
   $('desktopCompany').textContent=s.company;$('desktopStudent').textContent=s.student;$('desktopBrandEmoji').textContent=s.emoji||'△';
-  $('desktopGreeting').textContent=text('BIENVENIDO A TU OFICINA','BENVINGUT A LA TEVA OFICINA');$('desktopToday').textContent=text('Todo listo para empezar.','Tot preparat per començar.');$('desktopIntro').textContent=text('Abre una aplicación y atiende a los clientes.','Obre una aplicació i atén els clients.');
-  
+  $('desktopGreeting').textContent=text('MI OFICINA','LA MEVA OFICINA');
+  const shortcuts=['email','messages','phone','social','directory','tasks','settings','report'];
+  $('desktopIcons').innerHTML=shortcuts.map(id=>`<button class="desktop-shortcut" data-os-open="${id}" title="${h(name(id))}">${tagIcon(id)}<span>${h(name(id))}</span></button>`).join('')+AtCOS.VFS.list(AtCOS.VFS.DESKTOP).map(n=>`<button class="desktop-shortcut desktop-file" draggable="true" data-vfs-drag="${n.id}" data-vfs-desktop="${n.id}" title="${h(n.name)}">${glyph(n.type==='folder'?'folder':'file',33)}<span>${h(n.name)}</span></button>`).join('');
   $('startCompanyName').textContent=s.company;$('startStudentName').textContent=s.student;$('startUserBadge').textContent=s.emoji||'△';
  }
  function renderStart(){const s=E.get();if(!s)return;
@@ -94,8 +95,8 @@ AtCOS.Desktop=(()=>{
  function toggleStart(focusSearch=false){startOpen=!startOpen;notesOpen=false;$('notificationPanel').hidden=true;$('startMenu').hidden=!startOpen;$('taskStart').classList.toggle('selected',startOpen);if(startOpen){$('startSearch').value='';updateSearch();if(focusSearch)$('startSearch').focus()}}
  function toggleNotes(){notesOpen=!notesOpen;startOpen=false;$('startMenu').hidden=true;$('taskStart').classList.remove('selected');drawNotifications();$('notificationPanel').hidden=!notesOpen}
  function closeOverlays(){startOpen=false;notesOpen=false;$('startMenu').hidden=true;$('notificationPanel').hidden=true;$('taskStart').classList.remove('selected');hideSnapMenu()}
- function start(){win.clear();$('windowLayer').innerHTML='';active='dashboard';splitRatio=50;closeOverlays();refreshDecorations();open('dashboard');updateDivider();
-  $('taskStartGlyph').innerHTML=glyph('start',22);$('taskSearchGlyph').innerHTML=glyph('search',19);$('startSearchGlyph').innerHTML=glyph('search',19);$('startHelpGlyph').innerHTML=glyph('info',17);$('closeNotificationsGlyph').innerHTML=glyph('close',18);$('taskNotificationsGlyph').innerHTML=glyph('bell',18);}
+ function start(){win.clear();$('windowLayer').innerHTML='';active='';splitRatio=50;closeOverlays();AtCOS.VFS.init();refreshDecorations();updateDivider();
+  $('taskStartGlyph').innerHTML=glyph('start',22);$('taskSearchGlyph').innerHTML=glyph('search',19);$('startSearchGlyph').innerHTML=glyph('search',19);$('startHelpGlyph').innerHTML=glyph('info',17);$('startPowerGlyph').innerHTML=glyph('power',18);$('closeNotificationsGlyph').innerHTML=glyph('close',18);$('taskNotificationsGlyph').innerHTML=glyph('bell',18);}
  function savedStatus(){drawTaskbar()}
  // Pointer-based movement and resizing, fully constrained to the desktop work area.
  function installInteraction(){

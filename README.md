@@ -1,94 +1,50 @@
-# AtC/OS — Oficina Virtual
+# AtC/OS — Virtual Graphic Office
 
-**Simulador educativo de atención al cliente en artes gráficas.** La persona que juega utiliza un escritorio virtual con Correo, Mensajería, Teléfono, Mostrador, Comentarios en Instagram y Archivos. Las respuestas se redactan libremente, se registran y se exportan como PDF para revisión del profesorado. La aplicación **no simula entender el contenido escrito**.
+**Simulador educativo de atención al cliente en una empresa de artes gráficas.** El alumnado trabaja en un escritorio virtual con correo, mensajería, teléfono, comentarios de Instagram, archivos y tareas. Todas las respuestas son redactadas libremente y se recogen en un informe PDF para revisión del profesorado. No hay evaluación semántica automática.
 
-**Estado:** v0.4 — base funcional migrada desde *Central de Clientes 2 v0.3*. Incluye seis escenarios piloto, no el banco definitivo.
+**Estado:** **v0.5**, nueva base del sistema operativo. Cinco casos piloto y cuatro canales de comunicación (sin atención presencial). Todavía no es el banco definitivo.
 
-**Probar online:** https://tcardell.github.io/atc-os/ (una vez activado GitHub Pages en el repositorio).
+**Web de pruebas:** https://tcardell.github.io/atc-os/
 
-## Ejecutar
+## Experiencia
 
-La aplicación es estática. Para desarrollo, servir la carpeta raíz (no hace falta instalar dependencias):
+1. Pantalla breve de arranque, seguida de **inicio de sesión simulado** mediante nombre de alumno. El navegador puede ofrecer continuar la partida anterior.
+2. En el primer acceso se eligen idioma (castellano/catalán), nombre, emoji y color de la empresa, y apariencia.
+3. El **escritorio comienza sin ventanas abiertas**. Los iconos están en el escritorio y en Inicio; la barra inferior solo muestra los programas abiertos.
+4. Se puede trabajar con ventanas redimensionables/acoplables, correo, mensajes, llamadas, Instagram, Archivos, Tareas e Informes.
+5. La aplicación **Archivos** permite crear carpetas y notas, mover, copiar, renombrar, enviar a la papelera, restaurar y descargar. También permite guardar adjuntos simulados desde Correo y volver a adjuntarlos.
+6. **Inicio → Apagar** termina la jornada y abre el PDF. **Inicio → Reiniciar** descarta el progreso previa doble confirmación.
+
+El checklist de **Tareas pendientes** es opcional. Las marcas manuales no se consideran una calificación.
+
+### Limitaciones
+
+El login no es una cuenta real; los datos se quedan en el navegador. Los archivos virtuales del piloto son documentos textuales simulados, y los PDF descargados son fichas válidas de demostración, no originales del cliente. La persistencia actual usa `localStorage`, por lo que no debe emplearse para archivos grandes. Para el banco definitivo se prevé IndexedDB. Los cambios en el ordenador físico solo ocurren cuando el usuario descarga un documento expresamente.
+
+## Ejecutar en local
+
+Servir la carpeta raíz con un servidor HTTP, sin instalar dependencias:
 
 ```bash
 python -m http.server 8000
-# http://localhost:8000/
+# Abrir http://localhost:8000
 ```
 
-También es posible abrir `index.html` directamente, aunque servirlo por HTTP evita restricciones de origen en navegadores.
+## Desarrollo y tests
 
-## Calidad y publicación
-
-Requiere Node.js 20+ **solo para comprobaciones y compilación estática**:
+Se necesita Node.js 20+ solo para la validación y el empaquetado:
 
 ```bash
-npm run check     # dependencias y validación de casos
-npm test          # test unitarios de datos
-npm run build     # prepara dist/ para Pages
-npm run ci        # las tres comprobaciones
+npm run check
+npm test
+npm run build
+npm run ci
 ```
 
-No se usan dependencias npm externas. En GitHub, `ci.yml` verifica los cambios y `pages.yml` publica `dist/` en la rama `main`. **La primera vez:** Settings → Pages → Build and deployment → Source: **GitHub Actions**. Si el despliegue todavía no aparece, revisar Actions → *Deploy AtC/OS to GitHub Pages*.
+Además existen `tests/e2e_v05.py` y `tests/e2e_workflows_v05.py` para pruebas de navegador con Playwright. GitHub Actions ejecuta `npm run ci` y publica `dist/` en Pages al hacer push a `main`.
 
-## Estructura
+Consulta [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para detalles de componentes y [docs/ROADMAP.md](docs/ROADMAP.md) para próximas versiones.
 
-```text
-index.html                  Portal y escritorio virtual
-css/app.css                 Estilos base y formularios
-css/desktop.css             Sistema de ventanas, panel Inicio, barra inferior
-js/icons.js                 Iconografía vectorial SVG
-js/state.js                 Guardado automático local y migración de sesión anterior
-js/engine.js                Sesión, eventos, respuestas, acciones y estados
-js/views.js                 Vistas y componentes de los cinco canales
-js/desktop.js               Ventanas, acoplamiento, barra y notificaciones
-js/pdf.js                   Generador de informe descargable
-js/app.js                   Inicialización, eventos y orquestación
+## Privacidad
 
-data/registry.js            Registro validado de escenarios
- data/branding.js           12 colores corporativos
- data/i18n.js               Etiquetas castellano/catalán
- data/clients.js            CRM ficticio
- data/orders.js             Pedidos y metadatos
- data/catalog.js            Manual de consulta
- data/scenarios/pilot.js    6 casos piloto; futuros módulos aquí
-assets/                     Recursos gráficos locales
-scripts/                    Validación y empaquetado sin dependencias
-.github/workflows/          CI y despliegue a GitHub Pages
-tests/                      Tests del contenido y recorridos de navegador
-```
-
-### Cómo añadir nuevos casos
-
-1. Crear `data/scenarios/<coleccion>.js` con una IIFE, `const L=AtCOS.Data.L` y `AtCOS.Data.addCases([...])`.
-2. Cada caso necesita `id` único, `channel` (`email`, `messages`, `phone`, `desk`, `social`), `client`, `order` opcional, `arrival`, `kind`, `title` y un array de `steps`.
-3. Cada paso debe tener `incoming: L('Español','Català')` y `prompt: L('Español','Català')`. No escribir guiones que den por hecho lo que el alumno redactó.
-4. Añadir la referencia al nuevo `<script defer ...>` **después de `data/registry.js` y de los demás datos, pero antes de `js/engine.js`**.
-5. Ejecutar `npm run ci` y comprobar un recorrido completo en ambos idiomas.
-
-```js
-(()=>{
- const L=AtCOS.Data.L;
- AtCOS.Data.addCases([{id:'email02',channel:'email',client:'laura',order:'P-1847',
-   title:L('Consulta adicional','Consulta addicional'),subject:L('Pedido','Comanda'),
-   arrival:0,kind:'email',steps:[{incoming:L('Mensaje recibido','Missatge rebut'),
-   prompt:L('Redacta una respuesta','Redacta una resposta')}]
- }]);
-})();
-```
-
-Para incorporar nuevos clientes y pedidos, ampliar los módulos `data/clients.js` y `data/orders.js`.
-
-## Principios a mantener
-
-- **Simulación sin IA:** el programa registra las respuestas pero no las comprende; los acontecimientos avanzan mediante guiones y acciones estructuradas.
-- **Trabajo en una sola sesión:** no hay exportación/importación manual del progreso. El guardado local es una protección ante recargas accidentales y no debe considerarse almacenamiento permanente.
-- **Privacidad:** no hay servidor, analítica ni envío de respuestas. El alumnado descarga su PDF y lo entrega por Classroom.
-- **Interfaz:** escritorio con menú Inicio, barra de tareas, iconos SVG, ventanas redimensionables y acoplamiento lateral.
-- **Bilingüismo:** todo caso nuevo debe tener versiones `es` y `ca`.
-- **Estabilidad:** no cambiar `state` ni el esquema de escenarios sin actualizar validaciones y pruebas. Al ampliar el banco, habrá que versionar o migrar el estado guardado, pues la validación actual exige que su cantidad de casos coincida.
-
-## Pendientes de producto
-
-Ampliar escenarios, mejorar accesibilidad por teclado de ventanas, separar componentes de vistas extensas, incorporar un motor PDF Unicode de terceros si la longitud/diversidad de textos crece mucho y validar descarga desde un Google Sites real. No se promete una nota automática: el PDF es para corrección docente.
-
-Consulta `docs/ARCHITECTURE.md` y `docs/ROADMAP.md` para ampliar el proyecto.
+Este proyecto público **no contiene datos reales de clientes ni alumnos**. Los nombres y documentos de la simulación son ficticios. Los textos redactados por estudiantes se guardan localmente en su navegador; el repositorio GitHub no recopila esas respuestas por sí solo. No debe utilizarse el programa como gestor de información personal real.

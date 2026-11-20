@@ -7,13 +7,13 @@ AtCOS.Engine=(()=>{
  function stamp(){return String(Math.floor(state.simMinutes/60)).padStart(2,'0')+':'+String(state.simMinutes%60).padStart(2,'0')}
  function event(type,title,caseId){state.events.unshift({type,title,caseId:caseId||null,at:stamp()});state.events=state.events.slice(0,60)}
  function create({student,company,lang,theme,mode,emoji}){
-  const start=Date.now(),newState={version:1,session:`ATC-${start.toString(36).toUpperCase().slice(-6)}`,student:student.trim(),company:company.trim(),lang,theme,mode,emoji:emoji||'△',selectedByView:{},startedAt:now(),endedAt:null,finalized:false,simMinutes:540,view:'dashboard',selectedCase:null,events:[],cases:AtCOS.Data.cases.map(data=>({id:data.id,revealed:data.arrival===0,complete:false,step:0,messages:[{role:'client',text:data.steps[0].incoming,at:'09:00',kind:data.kind}],draft:'',actions:[],note:'',flags:{},lastLookup:null,startedAt:null,finishedAt:null})),openedManual:[],lastTick:Date.now()};
+  const start=Date.now(),picked=AtCOS.ScenarioSelector.choose(AtCOS.Data.cases,{limit:12,seed:start}),newState={version:2,scenarioIds:picked,taskChecks:{},wallpaper:'aurora',session:`ATC-${start.toString(36).toUpperCase().slice(-6)}`,student:student.trim(),company:company.trim(),lang,theme,mode,emoji:emoji||'△',selectedByView:{},startedAt:now(),endedAt:null,finalized:false,simMinutes:540,view:'dashboard',selectedCase:null,events:[],cases:AtCOS.Data.cases.filter(data=>picked.includes(data.id)).map(data=>({id:data.id,revealed:data.arrival===0,complete:false,step:0,messages:[{role:'client',text:data.steps[0].incoming,at:'09:00',kind:data.kind}],draft:'',actions:[],note:'',flags:{},lastLookup:null,startedAt:null,finishedAt:null})),openedManual:[],lastTick:Date.now()};
   state=newState;event('start',lang==='ca'?'Comença la jornada':'Comienza la jornada');save();return state;
  }
- function restore(s){if(!AtCOS.Store.validate(s))throw Error('Invalid session');state=s;state.lastTick=Date.now();state.view=state.view||'dashboard';state.selectedByView=state.selectedByView||{};state.emoji=state.emoji||'△';state.openedManual=state.openedManual||[];save();return state}
+ function restore(s){if(!AtCOS.Store.validate(s))throw Error('Invalid session');const supported=new Set(AtCOS.Data.cases.map(c=>c.id));s.cases=s.cases.filter(c=>supported.has(c.id));s.scenarioIds=s.cases.map(c=>c.id);s.version=2;s.taskChecks=s.taskChecks||{};s.wallpaper=s.wallpaper||'aurora';s.vfs=s.vfs||null;state=s;state.lastTick=Date.now();state.view=state.view||'dashboard';state.selectedByView=state.selectedByView||{};state.emoji=state.emoji||'△';state.openedManual=state.openedManual||[];save();return state}
  function save(){AtCOS.Store.save(state)}
  function caseData(id){return AtCOS.Data.cases.find(c=>c.id===id)}
- function caseState(id){return state.cases.find(c=>c.id===id)}
+ function caseState(id){return state?.cases?.find(c=>c.id===id)}
  function completedCount(){return state.cases.filter(c=>c.complete).length}
  function visibleCases(){return state.cases.filter(c=>c.revealed)}
  function availableCount(channel){return visibleCases().filter(c=>!c.complete&&(!channel||caseData(c.id).channel===channel)).length}
@@ -21,7 +21,7 @@ AtCOS.Engine=(()=>{
     c.revealed=true;incoming.push(d.id);event('arrival',loc(d.title),d.id);
   }}return incoming}
  function advance(mins=2){state.simMinutes=Math.min(20*60,state.simMinutes+mins);save()}
- function select(id){const c=caseState(id),d=caseData(id);if(!c||!c.revealed)return false;state.selectedCase=id;state.selectedByView=state.selectedByView||{};state.selectedByView[d.channel]=id;state.view=d.channel;if(!c.startedAt)c.startedAt=now();save();return true}
+ function select(id){const c=caseState(id),d=caseData(id);if(!c||!d||!c.revealed)return false;state.selectedCase=id;state.selectedByView=state.selectedByView||{};state.selectedByView[d.channel]=id;state.view=d.channel;if(!c.startedAt)c.startedAt=now();save();return true}
  function view(v){state.view=v;state.selectedCase=state.selectedByView?.[v]||null;save()}
  function draft(id,text){const c=caseState(id);if(c&&!c.complete){c.draft=String(text).slice(0,3200);save()}}
  function note(id,text){const c=caseState(id);if(c){c.note=String(text).slice(0,1400);save()}}
@@ -43,7 +43,7 @@ AtCOS.Engine=(()=>{
  function send(id,text){const c=caseState(id),d=caseData(id);if(!c||!c.revealed||c.complete||state.finalized)return {ok:false};
   const body=String(text||'').trim();if(body.length<12)return {ok:false,message:label('notEnough')};
   const at=stamp();const step=d.steps[c.step];if(!step)return {ok:false};
-  c.messages.push({role:'student',text:body,at,kind:step.requiresFlag?'private':d.kind});c.draft='';c.step+=1;c.lastLookup=null;advance(9);
+  c.messages.push({role:'student',text:body,at,kind:step.requiresFlag?'private':d.kind,attachments:(c.attachments||[]).map(fileId=>AtCOS.VFS?.node(fileId)?.name).filter(Boolean)});c.attachments=[];c.draft='';c.step+=1;c.lastLookup=null;advance(9);
   while(c.step<d.steps.length&&d.steps[c.step].requiresFlag&&!c.flags[d.steps[c.step].requiresFlag])c.step++;
   if(c.step>=d.steps.length){c.complete=true;c.finishedAt=now();event('resolved',loc(d.title),id)}
   else {const next=d.steps[c.step];c.messages.push({role:next.requiresFlag?'system':'client',text:next.incoming,at:stamp(),kind:next.requiresFlag?'private':d.kind});event('followup',loc(d.title),id)}
