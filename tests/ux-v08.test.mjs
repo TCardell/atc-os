@@ -72,7 +72,10 @@ test('file navigation and preview are connected to the actual client-record',()=
  assert.match(app,/FileApp\.openReceived/);
  assert.match(explorer,/id='vfsFilePreview'/);
  assert.match(explorer,/F\.fileContent\(n\)/);
- assert.match(app,/dataset\.vfsDownload/);
+ assert.doesNotMatch(app,/dataset\.vfsDownload/);
+ assert.match(explorer,/vfs-document-reader/);
+ assert.match(explorer,/data-vfs-cmd='closeviewer'/);
+ assert.doesNotMatch(explorer,/data-vfs-download/);
  assert.doesNotMatch(views,/title="Adjunto"/);
 });
 
@@ -82,7 +85,7 @@ test('drop area is physically separate from the trash and Settings has distinct 
  assert.match(css,/top:112px!important/);
  assert.match(css,/bottom:auto!important/);
  assert.match(css,/\[data-os-open="settings"\]/);
- assert.match(icons,/settings:'<path d="M10\.2 2\.6/);
+ assert.match(icons,/settings:'<path d="M8\.86 4\.42/);
 });
 
 test('new and modified JS files parse without syntax errors',()=>{
