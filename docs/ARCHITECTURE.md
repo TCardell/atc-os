@@ -1,4 +1,4 @@
-# Arquitectura técnica — AtC/OS v0.9
+# Arquitectura técnica — AtC/OS v0.9.1
 
 AtC/OS es una aplicación web estática (HTML, CSS y JavaScript sin librerías externas) que se distribuye mediante GitHub Pages. Contiene un **sistema operativo simulado** y un **motor independiente de atención al cliente**. No accede a archivos del ordenador físico sin una acción expresa del usuario y no interpreta semánticamente las respuestas libres.
 
@@ -55,3 +55,11 @@ Los adjuntos de los cinco casos son **documentos de demostración** generados a 
 - `js/vfs.js` no expone ni implementa ninguna descarga física (`download`, `makePdf` ni `URL.createObjectURL`) para los archivos de práctica. Las operaciones de copiar, mover, guardar y adjuntar siguen siendo internas.
 - **Excepción intencionada:** `js/pdf.js` continúa generando el informe de la jornada como PDF descargable para entrega al docente.
 - El icono `settings` se define una sola vez en `js/icons.js`, con un SVG simétrico dentro del `viewBox 0 0 24 24`. Los tests verifican contorno, simetría y límites.
+
+## Mantenimiento de integridad v0.9.1
+
+- `VFS.copy()` rechaza copiar una carpeta sobre sí misma o sobre sus descendientes. `VFS.move()` ya rechazaba el movimiento equivalente; se conserva la estructura jerárquica y el registro local.
+- `VFS.attachments(caseId)` solo devuelve archivos existentes de tipo fichero que no estén en la Papelera (incluidos los contenidos indirectamente en ella); `Engine.send()` obtiene los nombres de esa API en vez de resolver identificadores obsoletos. El cambio no elimina las referencias de adjuntos de una partida antigua; si el alumno restaura el archivo antes de enviar, vuelve a estar disponible.
+- `VFS.attach()` impide incluir ficheros en correos completados/no revelados o tras cerrar la jornada; las pruebas conservan compatibilidad con partidas que carezcan del campo `revealed`.
+- `ScenarioSelector.choose()` evita seleccionar casos con requisitos ausentes y rechaza ciclos de dependencia. `scripts/validate.mjs` analiza todos los módulos JS y valida IDs, referencias y traducciones de documentos recibidos, además de las dependencias del catálogo.
+- Los tests `tests/maintenance-v091.test.mjs` cubren copias de carpetas, ciclo de vida de adjuntos, envío, finalización y selección de situaciones. `npm run ci` es obligatorio antes de incorporar una versión.
