@@ -1,3 +1,11 @@
+## v0.9.0 — Visor interno e iconografía redibujada (20-11-2026)
+
+- Los ficheros de la oficina se abren dentro de Archivos, en un lector más amplio con navegación de vuelta; no hay descarga física de archivos de práctica.
+- Se retiran los botones y acciones «Descargar al ordenador» y la API `VFS.download`, así como el generador de PDF de demostración vinculado a esa descarga.
+- Las copias dentro de la carpeta virtual «Descargas», la adjunción a correos y el informe PDF entregable siguen disponibles.
+- Se rehace el icono Configuración con engranaje simétrico y verificaciones geométricas.
+- Se adaptan la documentación y las pruebas (incluido el flujo de navegador) a la lectura interna.
+
 ## v0.8.0 — Cuatro canales, recepción verificable de documentos (20-11-2026)
 
 - Se retira de nuevo la atención presencial, descartada en el diseño de producto: aplicación, escenario, iconos, selección, traducciones, CSS y pruebas.
