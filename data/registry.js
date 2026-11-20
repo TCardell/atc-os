@@ -9,7 +9,7 @@ AtCOS.Data={
   for(const item of items){
    if(!item||typeof item.id!=='string'||!item.id.trim())throw Error('Scenario has no ID');
    if(this.cases.some(c=>c.id===item.id))throw Error('Duplicate scenario ID: '+item.id);
-   if(!['email','messages','phone','desk','social'].includes(item.channel))throw Error('Invalid scenario channel: '+item.id);
+   if(!['email','messages','phone','social'].includes(item.channel))throw Error('Invalid scenario channel: '+item.id);
    if(!Array.isArray(item.steps)||item.steps.length===0)throw Error('Scenario has no steps: '+item.id);
    if(!item.title||!item.client||!('arrival' in item))throw Error('Scenario lacks required fields: '+item.id);
    this.cases.push({...item,pack:item.pack||'pilot',difficulty:item.difficulty||2,tags:item.tags||[],ra:item.ra||'RA2'});
