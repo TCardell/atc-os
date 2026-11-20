@@ -4,28 +4,28 @@
  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
  <meta name="theme-color" content="#11283c">
  <title>AtC/OS · Oficina Virtual</title>
- <link rel="stylesheet" href="css/app.css"><link rel="stylesheet" href="css/desktop.css"><link rel="stylesheet" href="css/system-v05.css">
+ <link rel="stylesheet" href="css/app.css"><link rel="stylesheet" href="css/desktop.css"><link rel="stylesheet" href="css/system-v05.css"><link rel="stylesheet" href="css/setup-v06.css"><link rel="stylesheet" href="css/themes/modern.css"><link rel="stylesheet" href="css/themes/retro98.css">
 </head>
-<body data-mode="light">
- <section id="bootScreen" class="boot-screen" aria-live="polite"><div class="boot-mark">AtC<span>/OS</span></div><div class="boot-spinner" aria-hidden="true"></div><p id="bootCaption">Iniciando AtC/OS…</p><button id="skipBoot" type="button">Omitir</button></section>
- <section id="loginScreen" class="login-screen" hidden><div class="login-brand">AtC<span>/OS</span></div><div class="login-card"><div class="login-avatar">◉</div><h1>Iniciar sesión</h1><label for="loginName">Nombre de usuario</label><input id="loginName" class="field" maxlength="80" autocomplete="name" placeholder="Tu nombre y apellidos"><button type="button" class="btn btn-primary btn-wide" id="loginProceed">Continuar →</button></div><button id="savedProfile" class="saved-profile" type="button" hidden></button><small class="login-footer">AtC/OS · Virtual Graphic Office</small></section>
- <section id="startScreen" class="welcome" hidden>
+<body data-mode="dark" data-os-theme="modern" data-setup-page="1">
+ <section id="bootScreen" class="boot-screen" aria-live="polite"><div class="boot-mark">AtC<span>/OS</span></div><div class="boot-spinner" aria-hidden="true"></div><div class="boot-progress-track" aria-hidden="true"><div id="bootProgress" class="boot-progress-fill"></div></div><p id="bootCaption">Iniciando AtC/OS…</p><button id="skipBoot" type="button">Omitir</button></section>
+ <section id="loginScreen" class="login-screen" hidden><div class="login-brand">AtC<span>/OS</span></div><div class="login-card"><div class="login-avatar" aria-hidden="true"><svg viewBox="0 0 64 64" width="58" height="58" fill="none"><circle cx="32" cy="23" r="11" stroke="currentColor" stroke-width="3.4"/><path d="M13 52c1-12 8-18 19-18s18 6 19 18" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/></svg></div><h1>Iniciar sesión</h1><label for="loginName">Nombre de usuario</label><input id="loginName" class="field" maxlength="80" autocomplete="name" placeholder="Tu nombre y apellidos"><button type="button" class="btn btn-primary btn-wide" id="loginProceed">Continuar →</button></div><button id="savedProfile" class="saved-profile" type="button" hidden></button><small class="login-footer">AtC/OS · Virtual Graphic Office</small></section>
+ <section id="startScreen" class="welcome os-first-run" hidden aria-label="Configuración inicial de AtC/OS">
   <div class="welcome-art" aria-hidden="true">
    <div class="welcome-brand"><div class="logo-mark">A<span>/OS</span></div><span>AtC/OS<br><small>OFICINA VIRTUAL</small></span></div>
    <div class="welcome-composition"><div class="mock-mail"><span>● &nbsp; ● &nbsp; ●</span><div class="mock-line w75"></div><div class="mock-line w45"></div><div class="mock-line w90"></div></div><div class="mock-bubble">Bon dia! 👋</div><div class="mock-card"><span>●</span> <span id="mockPilotText">06 gestiones de ejemplo</span> <b>↗</b></div></div>
    <div class="welcome-tagline" id="introPhrase">Aquí no hay respuestas prefabricadas. Tú eres quien atiende.</div>
   </div>
-  <div class="welcome-form-wrap"><div class="welcome-form">
-   <div class="eyebrow" id="introTag">SIMULADOR PROFESIONAL · ARTES GRÁFICAS</div>
+  <div class="welcome-form-wrap"><div class="welcome-form"><div class="os-setup-progress" aria-label="Progreso de configuración"><span data-setup-progress="1" class="is-current"></span><span data-setup-progress="2"></span></div><div class="os-setup-avatar" aria-hidden="true"><svg viewBox="0 0 64 64" width="58" height="58" fill="none"><circle cx="32" cy="23" r="11" stroke="currentColor" stroke-width="3.4"/><path d="M13 52c1-12 8-18 19-18s18 6 19 18" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><circle cx="48" cy="46" r="10" fill="var(--brand)"/><path d="M44 46h8m-4-4v8" stroke="white" stroke-width="2.1" stroke-linecap="round"/></svg></div>
+   <section class="os-setup-step" data-setup-step="1"><div class="eyebrow" id="introTag">SIMULADOR PROFESIONAL · ARTES GRÁFICAS</div>
    <h1 id="introTitle">Tu jornada empieza aquí.</h1>
    <p class="subheading" id="introDescription">Gestiona correos, mensajes, llamadas y comentarios de redes. Investiga antes de responder, escribe tus propias respuestas y entrega el informe al finalizar.</p>
    <label id="lblName" for="studentInput" hidden>Nombre y apellidos</label>
    <input id="studentInput" class="field" type="text" maxlength="80" autocomplete="name" placeholder="Escribe tu nombre completo" hidden />
    <label id="lblCompany" for="companyInput">Nombre de tu empresa de artes gráficas</label>
    <div class="company-name-control"><input id="companyInput" class="field" type="text" maxlength="70" placeholder="Ej.: Prisma Gràfic" /><button id="randomCompanyBtn" type="button" class="btn btn-quiet" title="Nombre al azar">🎲 <span id="randomLabel">Nombre al azar</span></button></div>
-   <div class="form-two"><div><label id="lblLang" for="langSelect">Idioma</label><select id="langSelect" class="field"><option value="es">Español</option><option value="ca">Català</option></select></div><div><label id="lblAppearance">Apariencia</label><button type="button" id="themeModeBtn" class="field mode-choice">☾ Modo oscuro</button></div></div>
+   <button type="button" id="setupNext" class="btn btn-primary btn-wide os-setup-next" disabled>Continuar →</button></section><section class="os-setup-step" data-setup-step="2" hidden><div class="os-step-kicker" id="setupStyleLabel">PASO 2 DE 2 · PERSONALIZACIÓN</div><h2 id="setupStyleTitle">Personaliza tu oficina</h2><p class="os-step-desc" id="setupStyleDescription">Elige cómo quieres que se vea el escritorio de tu empresa.</p><div class="form-two"><div><label id="lblLang" for="langSelect">Idioma</label><select id="langSelect" class="field"><option value="es">Español</option><option value="ca">Català</option></select></div><div><label id="lblAppearance">Apariencia</label><button type="button" id="themeModeBtn" class="field mode-choice">☾ Modo oscuro</button></div></div>
    <label id="lblColor">Color corporativo</label><div id="colorSwatches" class="swatches" role="group" aria-label="Color corporativo"></div><label id="lblEmoji">Logotipo de la empresa</label><div id="emojiSwatches" class="emoji-swatches" role="group" aria-label="Logotipo de la empresa"></div><p id="logoHint" class="logo-hint">Selecciona un emoji o vuelve a pulsarlo para usar △.</p>
-   <div class="welcome-actions"><button id="startBtn" class="btn btn-primary btn-wide" disabled>Entrar en la oficina <span>→</span></button><button id="resumeBtn" class="btn btn-quiet btn-wide" hidden>Reanudar jornada guardada</button></div>
+   <button type="button" id="setupBack" class="btn btn-quiet os-setup-back">← Volver</button></section><div class="welcome-actions"><button id="startBtn" class="btn btn-primary btn-wide" disabled>Entrar en la oficina <span>→</span></button><button id="resumeBtn" class="btn btn-quiet btn-wide" hidden>Reanudar jornada guardada</button></div>
    <div class="privacy-note"><span>◉</span><span id="privacyText">Este simulador guarda el progreso solo en este navegador. No envía respuestas a ningún servidor.</span></div>
   </div></div>
  </section>
@@ -57,7 +57,7 @@
  <script defer src="data/catalog.js"></script>
  <script defer src="data/scenarios/pilot.js"></script>
  <script defer src="js/icons.js"></script>
- <script defer src="js/state.js"></script>
+ <script defer src="js/theme-manager.js"></script><script defer src="js/state.js"></script>
  <script defer src="js/scenario-selector.js"></script>
  <script defer src="js/engine.js"></script>
  <script defer src="js/vfs.js"></script>

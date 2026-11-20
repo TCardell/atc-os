@@ -1,0 +1,13 @@
+/* Prototipo estructural futuro: aún no se ofrece selector al alumnado. */
+body[data-os-theme="retro98"]{font-family:Tahoma,"MS Sans Serif",Arial,sans-serif;--os-window-radius:0px;--os-control-radius:0px;--os-border-width:2px;--ink:#171717;--border:#7c7c7c;--surface:#c0c0c0;--page:#e1e1df;--side:#d8d8d8;--soft:#e9e9e9}
+body[data-os-theme="retro98"] .desktop-wallpaper{background:#008080!important}
+body[data-os-theme="retro98"] .os-window,body[data-os-theme="retro98"] .os-start-menu,body[data-os-theme="retro98"] .notification-panel,body[data-os-theme="retro98"] .os-snap-menu,body[data-os-theme="retro98"] .os-taskbar{border-radius:0!important;background:#c0c0c0!important;color:#111!important;border:2px outset #eee!important;box-shadow:2px 2px #313131!important;backdrop-filter:none!important}
+body[data-os-theme="retro98"] .os-titlebar{background:linear-gradient(90deg,#000080,#1181ba)!important;color:#fff!important;border-radius:0!important}
+body[data-os-theme="retro98"] .os-titlebar strong,body[data-os-theme="retro98"] .os-titlebar small{color:#fff!important}
+body[data-os-theme="retro98"] .os-title-action,body[data-os-theme="retro98"] .btn,body[data-os-theme="retro98"] button:not(.taskbar-button),body[data-os-theme="retro98"] select,body[data-os-theme="retro98"] input,body[data-os-theme="retro98"] textarea{border-radius:0!important}
+body[data-os-theme="retro98"] .btn,body[data-os-theme="retro98"] .os-title-action,body[data-os-theme="retro98"] .taskbar-button,body[data-os-theme="retro98"] .email-folder-button,body[data-os-theme="retro98"] .start-app-tile{border:2px outset #f0f0f0!important;background:#c0c0c0!important;color:#111!important;box-shadow:none!important}
+body[data-os-theme="retro98"] .os-window-content,body[data-os-theme="retro98"] .email-client,body[data-os-theme="retro98"] .email-inbox,body[data-os-theme="retro98"] .email-reader,body[data-os-theme="retro98"] .vfs-app,body[data-os-theme="retro98"] .reply-panel,body[data-os-theme="retro98"] .settings-app,body[data-os-theme="retro98"] .os-app-area,body[data-os-theme="retro98"] .inspector,body[data-os-theme="retro98"] .email-message-card{background:#e8e8e8!important;color:#111!important;border-radius:0!important}
+body[data-os-theme="retro98"] .os-start-menu button,body[data-os-theme="retro98"] .taskbar-right button{color:#111!important}
+body[data-os-theme="retro98"] .os-first-run.welcome{background:#008080!important}
+body[data-os-theme="retro98"] .os-first-run .welcome-form{border-radius:0!important;background:#c0c0c0!important;border:3px outset #eee!important;box-shadow:5px 5px #333!important}
+body[data-os-theme="retro98"] .email-row-new{border-radius:0!important}

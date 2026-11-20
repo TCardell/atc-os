@@ -1,3 +1,13 @@
+## v0.6.0 — Integración del asistente y mejoras visuales (20-11-2026)
+
+- Primera configuración centrada en dos pasos, con avatar SVG, sin composición lateral.
+- Animación de arranque con progreso después de crear o recuperar la sesión; se puede omitir.
+- Punto de no leído anclado y estado «leído» al abrir un correo, sin alterar la obligación de contestarlo.
+- Presets 35/65, 50/50 y 65/35 para dos ventanas acopladas.
+- Escritorio sin accesos duplicados a las aplicaciones; se mantienen archivos/carpetas del alumno.
+- Motor de temas separado y prototipo CSS retro98 preparado, sin opción de activación pública.
+- Se mantiene la base modular, archivos virtuales, adjuntos, tareas y canalizaciones CI de la v0.5.
+
 # Historial de versiones
 
 ## v0.5.0 — 20/11/2026

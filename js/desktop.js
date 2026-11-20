@@ -51,14 +51,15 @@ AtCOS.Desktop=(()=>{
   if(activeSnapMenu===id&&!pop.hidden){hideSnapMenu();return}
   closeOverlays();activeSnapMenu=id;
   const items=[['left','left',text('Colocar a la izquierda','Col·locar a l’esquerra')],['right','right',text('Colocar a la derecha','Col·locar a la dreta')],['split','tile',text('Correo o Archivos al lado','Correu o Arxius al costat')],['restore','restore',text('Restaurar ventana','Restaurar finestra')]];
-  pop.innerHTML=`<div class="snap-menu-heading">${text('Organizar ventanas','Organitzar finestres')}</div><div class="snap-menu-grid">${items.map(([cmd,icon,label])=>`<button type="button" class="snap-menu-option" data-window-action="${cmd}" data-win="${id}">${glyph(icon,21)}<span>${label}</span></button>`).join('')}</div><p>${text('También puedes arrastrar una ventana a un borde o ajustar su tamaño desde las esquinas.','També pots arrossegar una finestra fins a una vora o ajustar-ne la mida des de les cantonades.')}</p>`;
+  const presets=hasPair()?`<div class="snap-menu-presets"><small>${text('Ancho de ventanas','Amplada de finestres')}</small><div class="snap-preset-actions">${[[35,'35 / 65'],[50,'50 / 50'],[65,'65 / 35']].map(([ratio,label])=>`<button type="button" class="snap-preset ${splitRatio===ratio?'selected':''}" data-window-action="ratio${ratio}" data-win="${id}" aria-label="${label}">${label}</button>`).join('')}</div></div>`:'';
+  pop.innerHTML=`<div class="snap-menu-heading">${text('Organizar ventanas','Organitzar finestres')}</div><div class="snap-menu-grid">${items.map(([cmd,icon,label])=>`<button type="button" class="snap-menu-option" data-window-action="${cmd}" data-win="${id}">${glyph(icon,21)}<span>${label}</span></button>`).join('')}</div><p>${text('También puedes arrastrar una ventana a un borde o ajustar su tamaño desde las esquinas.','També pots arrossegar una finestra fins a una vora o ajustar-ne la mida des de les cantonades.')}</p>${presets}`;
   pop.hidden=false;
   const rect=v.node.querySelector('[data-window-action="menu"]').getBoundingClientRect();const shell=$('appShell').getBoundingClientRect();
   pop.style.left=Math.max(10,Math.min(shell.width-270,rect.left-shell.left-220))+'px';pop.style.top=Math.max(12,Math.min(shell.height-330,rect.bottom-shell.top+7))+'px';
  }
  function hideSnapMenu(){activeSnapMenu=null;$('snapMenu').hidden=true}
  function control(cmd,id){if(cmd==='menu'){showSnapMenu(id);return}
-  hideSnapMenu();if(cmd==='min')minimize(id);else if(cmd==='max')maximize(id);else if(cmd==='close')close(id);else if(cmd==='split')split(id);else if(cmd==='restore')restore(id);else if(cmd==='left'||cmd==='right')snap(id,cmd);
+  hideSnapMenu();if(cmd==='min')minimize(id);else if(cmd==='max')maximize(id);else if(cmd==='close')close(id);else if(cmd==='split')split(id);else if(cmd==='restore')restore(id);else if(cmd==='left'||cmd==='right')snap(id,cmd);else if(/^ratio(35|50|65)$/.test(cmd)){splitRatio=Number(cmd.slice(5));updateDivider()}
  }
  function drawTaskbar(){const s=E.get();if(!s)return;
   const counts={email:E.availableCount('email'),messages:E.availableCount('messages'),phone:E.availableCount('phone'),social:E.availableCount('social')};
@@ -69,8 +70,8 @@ AtCOS.Desktop=(()=>{
  function renderShortcuts(){const s=E.get();if(!s)return;
   $('desktopCompany').textContent=s.company;$('desktopStudent').textContent=s.student;$('desktopBrandEmoji').textContent=s.emoji||'△';
   $('desktopGreeting').textContent=text('MI OFICINA','LA MEVA OFICINA');
-  const shortcuts=['email','messages','phone','social','directory','tasks','settings','report'];
-  $('desktopIcons').innerHTML=shortcuts.map(id=>`<button class="desktop-shortcut" data-os-open="${id}" title="${h(name(id))}">${tagIcon(id)}<span>${h(name(id))}</span></button>`).join('')+AtCOS.VFS.list(AtCOS.VFS.DESKTOP).map(n=>`<button class="desktop-shortcut desktop-file" draggable="true" data-vfs-drag="${n.id}" data-vfs-desktop="${n.id}" title="${h(n.name)}">${glyph(n.type==='folder'?'folder':'file',33)}<span>${h(n.name)}</span></button>`).join('');
+  // Las apps se abren desde Inicio; el escritorio solo muestra archivos del alumno.
+  $('desktopIcons').innerHTML=AtCOS.VFS.list(AtCOS.VFS.DESKTOP).map(n=>`<button class="desktop-shortcut desktop-file" draggable="true" data-vfs-drag="${n.id}" data-vfs-desktop="${n.id}" title="${h(n.name)}">${glyph(n.type==='folder'?'folder':'file',33)}<span>${h(n.name)}</span></button>`).join('');
   $('startCompanyName').textContent=s.company;$('startStudentName').textContent=s.student;$('startUserBadge').textContent=s.emoji||'△';
  }
  function renderStart(){const s=E.get();if(!s)return;

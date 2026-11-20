@@ -16,7 +16,7 @@ with sync_playwright() as p:
  page.on('dialog',lambda dialog:dialog.accept('Carpeta ensayo'))
  page.set_content(assemble(),wait_until='load')
  page.wait_for_selector('#loginScreen:not([hidden])')
- page.fill('#loginName','María José Núria');page.click('#loginProceed');page.fill('#companyInput','Croma Gràfic');page.click('#startBtn');page.wait_for_selector('#appShell:not([hidden])')
+ page.fill('#loginName','María José Núria');page.click('#loginProceed');page.fill('#companyInput','Croma Gràfic');page.click('#setupNext');page.click('#startBtn');page.wait_for_selector('#appShell:not([hidden])')
  # Settings changes
  page.click('#taskStart');page.locator('#startAppGrid [data-os-open="settings"]').click()
  page.locator('select[data-os-setting="wallpaper"]').select_option('nocturne')
