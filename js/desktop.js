@@ -4,7 +4,7 @@ AtCOS.Desktop=(()=>{
  const E=AtCOS.Engine,D=AtCOS.Data,I=AtCOS.Icons;
  const $=id=>document.getElementById(id),h=s=>AtCOS.Views.escape(s);
  const apps=['email','messages','phone','social','directory','tasks','settings','dashboard','report'];
- const win=new Map();let z=12,active='',startOpen=false,notesOpen=false;
+ const win=new Map(),rememberedGeometry=new Map();let z=12,active='',startOpen=false,notesOpen=false;
  let splitRatio=50,activeSnapMenu=null,interaction=null;
  const text=(es,ca)=>E.get()?.lang==='ca'?ca:es;
  function name(id){const c=D.labels[E.get()?.lang||'es'];return c[id]||id}
@@ -12,7 +12,13 @@ AtCOS.Desktop=(()=>{
  const glyph=(id,size=17)=>I.svg(id,{size});
  function windowTitle(id){return name(id)}
  function bounds(){const e=$('windowLayer');const w=e.clientWidth||window.innerWidth,H=e.clientHeight||window.innerHeight;return {w,H,maxW:Math.max(365,w-24),maxH:Math.max(290,H-18)}}
- function preferredRect(id){const b=bounds(),i=apps.indexOf(id),ww=Math.min(b.maxW,b.w>1420?1120:b.w>980?920:b.maxW),hh=Math.min(b.maxH,Math.max(450,b.H-38));return {left:Math.max(12,Math.round((b.w-ww)/2)+((i*13)%53)-22),top:Math.max(20,Math.round((b.H-hh)/2)+((i*11)%55)-8),w:ww,h:hh}}
+ function preferredRect(id){const b=bounds(),i=apps.indexOf(id),compact=id==='tasks';
+  const ww=Math.min(b.maxW,compact?650:b.w>1420?1120:b.w>980?920:b.maxW),hh=Math.min(b.maxH,compact?570:Math.max(450,b.H-38));
+  return {left:Math.max(12,Math.round((b.w-ww)/2)+(compact?0:((i*13)%53)-22)),top:Math.max(12,Math.round((b.H-hh)/2)+(compact?0:((i*11)%55)-8)),w:ww,h:hh}
+ }
+ function initialRect(id){const old=rememberedGeometry.get(id);if(!old)return preferredRect(id);const b=bounds(),w=Math.min(b.maxW,Math.max(390,old.w)),h=Math.min(b.maxH,Math.max(310,old.h));
+  return {left:Math.max(4,Math.min(old.left,b.w-w-4)),top:Math.max(4,Math.min(old.top,b.H-h-4)),w,h}
+ }
  function buildWindow(id){const v=win.get(id);if(!v)return;
   const e=document.createElement('section');e.className='os-window';e.dataset.osWin=id;e.dataset.pos='free';e.setAttribute('aria-label',windowTitle(id));e.style.zIndex=v.z;
   const a=(act,icon,title,extra='')=>`<button type="button" class="os-title-action ${extra}" data-window-action="${act}" data-win="${id}" title="${title}" aria-label="${title}">${glyph(icon,16)}</button>`;
@@ -30,9 +36,9 @@ AtCOS.Desktop=(()=>{
  }
  function renderOne(id){const v=win.get(id);if(!v?.node)return;const body=v.node.querySelector('[data-window-content]');body.innerHTML=AtCOS.Views.windowContent(id)}
  function focus(id,refresh=false){const v=win.get(id);if(!v)return;active=id;v.z=++z;v.minimized=false;E.view(id);for(const x of win.values())position(x);if(refresh)renderOne(id);drawTaskbar();closeOverlays();updateDivider()}
- function open(id){if(!apps.includes(id))return;let v=win.get(id);if(!v){v={id,z:++z,minimized:false,maximized:false,snap:null,rect:preferredRect(id),node:null};win.set(id,v);buildWindow(id)}focus(id,true);refreshDecorations();updateDivider()}
+ function open(id){if(!apps.includes(id))return;let v=win.get(id);if(!v){v={id,z:++z,minimized:false,maximized:false,snap:null,rect:initialRect(id),node:null};win.set(id,v);buildWindow(id)}focus(id,true);refreshDecorations();updateDivider()}
  function minimize(id){const v=win.get(id);if(!v)return;v.minimized=true;v.node?.classList.add('is-minimized');updateDivider();const others=[...win.values()].filter(x=>!x.minimized&&x.id!==id).sort((a,b)=>b.z-a.z);if(others.length)focus(others[0].id);else {active='';drawTaskbar()}}
- function close(id){const v=win.get(id);if(!v)return;v.node?.remove();win.delete(id);updateDivider();const others=[...win.values()].filter(x=>!x.minimized).sort((a,b)=>b.z-a.z);if(others.length)focus(others[0].id);else {active='';drawTaskbar()}closeOverlays()}
+ function close(id){const v=win.get(id);if(!v)return;rememberedGeometry.set(id,{...v.rect});v.node?.remove();win.delete(id);updateDivider();const others=[...win.values()].filter(x=>!x.minimized).sort((a,b)=>b.z-a.z);if(others.length)focus(others[0].id);else {active='';drawTaskbar()}closeOverlays()}
  function maximize(id){const v=win.get(id);if(!v)return;const toMax=!(v.maximized&&!v.snap);v.maximized=toMax;v.snap=null;focus(id);position(v);updateDivider()}
  function snap(id,side){const v=win.get(id);if(!v)return;
   const b=bounds();if(b.w<820){maximize(id);return}
@@ -70,8 +76,10 @@ AtCOS.Desktop=(()=>{
  function renderShortcuts(){const s=E.get();if(!s)return;
   $('desktopCompany').textContent=s.company;$('desktopStudent').textContent=s.student;$('desktopBrandEmoji').textContent=s.emoji||'△';
   $('desktopGreeting').textContent=text('MI OFICINA','LA MEVA OFICINA');
-  // Las apps se abren desde Inicio; el escritorio solo muestra archivos del alumno.
-  $('desktopIcons').innerHTML=AtCOS.VFS.list(AtCOS.VFS.DESKTOP).map(n=>`<button class="desktop-shortcut desktop-file" draggable="true" data-vfs-drag="${n.id}" data-vfs-desktop="${n.id}" title="${h(n.name)}">${glyph(n.type==='folder'?'folder':'file',33)}<span>${h(n.name)}</span></button>`).join('');
+  // El escritorio vuelve a ofrecer accesos a aplicaciones, además de archivos personales.
+  const shortcuts=['email','messages','phone','social','directory','tasks','settings','report'];
+  $('desktopIcons').innerHTML=shortcuts.map(id=>`<button type="button" class="desktop-shortcut desktop-app" data-os-open="${id}" title="${h(name(id))}">${tagIcon(id)}<span>${h(name(id))}</span></button>`).join('')+AtCOS.VFS.list(AtCOS.VFS.DESKTOP).map(n=>`<button class="desktop-shortcut desktop-file" draggable="true" data-vfs-drag="${n.id}" data-vfs-desktop="${n.id}" title="${h(n.name)}">${glyph(n.type==='folder'?'folder':'file',33)}<span>${h(n.name)}</span></button>`).join('');
+  const trash=$('desktopTrash'),count=AtCOS.VFS.list(AtCOS.VFS.TRASH).length;if(trash){trash.classList.toggle('is-filled',count>0);trash.title=text('Papelera','Paperera');trash.setAttribute('aria-label',trash.title);trash.innerHTML=glyph('trash',37)+`<span>${text('Papelera','Paperera')}${count?' ('+count+')':''}</span>`}
   $('startCompanyName').textContent=s.company;$('startStudentName').textContent=s.student;$('startUserBadge').textContent=s.emoji||'△';
  }
  function renderStart(){const s=E.get();if(!s)return;
@@ -97,7 +105,7 @@ AtCOS.Desktop=(()=>{
  function toggleNotes(){notesOpen=!notesOpen;startOpen=false;$('startMenu').hidden=true;$('taskStart').classList.remove('selected');drawNotifications();$('notificationPanel').hidden=!notesOpen}
  function closeOverlays(){startOpen=false;notesOpen=false;$('startMenu').hidden=true;$('notificationPanel').hidden=true;$('taskStart').classList.remove('selected');hideSnapMenu()}
  function start(){win.clear();$('windowLayer').innerHTML='';active='';splitRatio=50;closeOverlays();AtCOS.VFS.init();refreshDecorations();updateDivider();
-  $('taskStartGlyph').innerHTML=glyph('start',22);$('taskSearchGlyph').innerHTML=glyph('search',19);$('startSearchGlyph').innerHTML=glyph('search',19);$('startHelpGlyph').innerHTML=glyph('info',17);$('startPowerGlyph').innerHTML=glyph('power',18);$('closeNotificationsGlyph').innerHTML=glyph('close',18);$('taskNotificationsGlyph').innerHTML=glyph('bell',18);}
+  $('taskStartGlyph').innerHTML=glyph('start',26);$('startSearchGlyph').innerHTML=glyph('search',19);$('startHelpGlyph').innerHTML=glyph('info',17);$('startPowerGlyph').innerHTML=glyph('power',18);$('closeNotificationsGlyph').innerHTML=glyph('close',18);$('taskNotificationsGlyph').innerHTML=glyph('bell',18);}
  function savedStatus(){drawTaskbar()}
  // Pointer-based movement and resizing, fully constrained to the desktop work area.
  function installInteraction(){
