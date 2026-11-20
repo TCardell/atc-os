@@ -14,10 +14,6 @@ const cases=[
    {incoming:L('Hola, buenos días. Soy Bernat, del Café Marès. Llamo por las 200 cartas que encargamos. ¿Podemos pasar a recogerlas hoy?','Hola, bon dia. Som en Bernat, del Cafè Marès. Telefon per les 200 cartes que vàrem encarregar. Podem passar a recollir-les avui?'),prompt:L('Escribe lo que dirías por teléfono.','Escriu què diries per telèfon.')},
    {incoming:L('Ah, y probablemente las recogerá mi compañera, no yo. ¿Qué deberíamos llevar para que nos las entreguéis?','Ah, i probablement les recollirà la meva companya, no jo. Què hauríem de dur perquè ens les lliureu?'),prompt:L('Responde oralmente en la simulación.','Respon oralment en la simulació.')}
   ]},
-  {id:'desk01',channel:'desk',client:'marc',order:null,title:L('Un cartel para una exposición','Un cartell per a una exposició'),arrival:1,kind:'face',steps:[
-   {incoming:L('¡Buenas! Estoy preparando una pequeña exposición. Necesito un cartel grande que se vea bien, pero no sé qué papel ni acabado elegir.','Bones! Estic preparant una exposició petita. Necessit un cartell gros que es vegi bé, però no sé quin paper ni acabat triar.'),prompt:L('Explica al cliente cómo lo asesorarías.','Explica al client com l’assessoraries.')},
-   {incoming:L('El cartel estará cerca de una ventana y habrá bastante luz. Me preocupa que se vean reflejos.','El cartell estarà a prop d’una finestra i hi haurà molta llum. Em preocupa que hi hagi reflexos.'),prompt:L('Responde con una recomendación razonada.','Respon amb una recomanació raonada.')}
-  ]},
   {id:'social01',channel:'social',client:'clara',order:null,title:L('Queja en un comentario público','Queixa en un comentari públic'),arrival:2,kind:'comment',post:'post-eco.svg',steps:[
    {incoming:L('Bonita publicación, pero llevo dos días intentando contactar con vosotros por un problema en un folleto. Nadie me responde. 😕','Molt maca la publicació, però fa dos dies que intent contactar amb vosaltres per un problema amb un fullet. Ningú em respon. 😕'),prompt:L('Redacta la respuesta pública al comentario.','Redacta la resposta pública al comentari.')},
    {incoming:L('Escribe ahora un mensaje privado a la persona, sin dar por hecho ningún dato que no conozcas.','Escriu ara un missatge privat a la persona, sense donar per fet cap dada que no coneguis.'),prompt:L('Mensaje privado (si decidiste prepararlo).','Missatge privat (si has decidit preparar-lo).'),requiresFlag:'openPrivate'}
@@ -26,5 +22,5 @@ const cases=[
    {incoming:L('Hola, soy Laura, del Estudio Prisma. Llamo por el pedido P-1847. Además del cambio de teléfono, quería saber si puedo recoger las tarjetas personalmente en lugar de recibirlas por mensajería.','Hola, som na Laura, d’Estudio Prisma. Telefon per la comanda P-1847. A més del canvi de telèfon, volia saber si puc recollir les targetes personalment en lloc de rebre-les per missatgeria.'),prompt:L('Continúa la atención de la misma clienta por teléfono.','Continua l’atenció de la mateixa clienta per telèfon.')}
   ]}
  ];
- AtCOS.Data.addCases(cases);
+ AtCOS.Data.addPack({id:'pilot',version:2,cases});
 })();

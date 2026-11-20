@@ -58,12 +58,14 @@ AtCOS.PDF=(()=>{
     const who=isStudent?(state.lang==='ca'?'ALUMNE':'ALUMNO'):(m.role==='system'?(state.lang==='ca'?'INDICACIÓ':'INDICACIÓN'):(state.lang==='ca'?'CLIENT':'CLIENTE'));
     text(`${who} · ${m.at||''}`,margin,y,8,true,isStudent?brand:'#506574');y+=15;
     paragraph(txt(m.text),{size:9,x:margin+9,maxWidth:WIDTH-2*margin-18,after:9});
+    if(m.attachments?.length)paragraph((state.lang==='ca'?'Adjunts: ':'Adjuntos: ')+m.attachments.join(' · '),{size:8,color:'#536575'});
    });
    if(c.draft.trim()){text(state.lang==='ca'?'ESBORRANY NO ENVIAT':'BORRADOR NO ENVIADO',margin,y,8,true,'#aa713a');y+=16;paragraph(c.draft,{size:8.7,x:margin+9,maxWidth:WIDTH-2*margin-18})}
    if(c.actions.length){paragraph((state.lang==='ca'?'Gestions registrades: ':'Gestiones registradas: ')+c.actions.map(a=>t(a.type==='catalog'?'catalog':a.type)+` (${a.at})`).join(' · '),{size:8.4,color:'#536575'})}
    if(c.note?.trim()){text(state.lang==='ca'?'NOTES INTERNES':'NOTAS INTERNAS',margin,y,8,true,'#536575');y+=14;paragraph(c.note,{size:8.5})}
    rule();
   });
+  if(state.fileActions?.length){heading(state.lang==='ca'?'Gestió de fitxers':'Gestión de archivos');for(const f of state.fileActions)paragraph(`${f.at} · ${f.type}: ${f.name}`,{size:8,color:'#536575',after:2})}
   room(40);paragraph(`${state.session} · ${state.lang==='ca'?'Informe generat en el navegador, sense enviar dades.':'Informe generado en el navegador sin enviar datos.'}`,{size:7.6,color:'#6a7d8b'});
   parts.push(cmd.join('\n'));
   const enc=new TextEncoder(),obj=[],pages=[];const add=s=>(obj.push(s),obj.length);
@@ -77,7 +79,7 @@ AtCOS.PDF=(()=>{
   blocks.push(`trailer\n<< /Size ${obj.length+1} /Root ${root} 0 R >>\nstartxref\n${xref}\n%%EOF`);
   return new Blob(blocks,{type:'application/pdf'});
  }
- function pdfName(s){const norm=s.student.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9_-]+/gi,'_').slice(0,36)||'alumno';return `Informe_Oficina_Virtual_${norm}_${s.session}.pdf`}
+ function pdfName(s){const norm=s.student.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9_-]+/gi,'_').slice(0,36)||'alumno';return `AtCOS_Informe_${norm}_${s.session}.pdf`}
  function prepare(s){if(lastUrl)URL.revokeObjectURL(lastUrl);lastUrl=URL.createObjectURL(build(s));return {url:lastUrl,name:pdfName(s)}}
  return {build,prepare,pdfName};
 })();
