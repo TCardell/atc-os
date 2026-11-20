@@ -2,7 +2,7 @@
 
 **Simulador educativo de atención al cliente en una empresa de artes gráficas.** El alumnado trabaja en un escritorio virtual con correo, mensajería, teléfono, comentarios de Instagram, archivos y tareas. Todas las respuestas son redactadas libremente y se recogen en un informe PDF para revisión del profesorado. No hay evaluación semántica automática.
 
-**Estado:** **v0.9**, visor interno de documentos e iconografía de Ajustes corregida. Cinco casos piloto y **cuatro canales: correo, mensajería, teléfono e Instagram**. La atención presencial queda descartada. Todavía no es el banco definitivo.
+**Estado:** **v0.9.1**, revisión interna de integridad de archivos, adjuntos, casos y validaciones, sin cambios deliberados en la interfaz. Cinco casos piloto y **cuatro canales: correo, mensajería, teléfono e Instagram**. La atención presencial queda descartada. Todavía no es el banco definitivo.
 
 **Web de pruebas:** https://tcardell.github.io/atc-os/
 
@@ -43,7 +43,7 @@ npm run ci
 
 Además existen `tests/e2e_v05.py` y `tests/e2e_workflows_v05.py` para pruebas de navegador con Playwright. GitHub Actions ejecuta `npm run ci` y publica `dist/` en Pages al hacer push a `main`.
 
-Consulta [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para detalles de componentes y [docs/ROADMAP.md](docs/ROADMAP.md) para próximas versiones.
+Consulta [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) para detalles de componentes, [docs/ROADMAP.md](docs/ROADMAP.md) para próximas mejoras y **[docs/PRODUCT_DECISIONS.md](docs/PRODUCT_DECISIONS.md)** para decisiones que no deben revertirse sin nueva autorización. El historial cronológico está en **[CHANGELOG.md](CHANGELOG.md)**.
 
 ## Privacidad
 
@@ -53,7 +53,7 @@ Este proyecto público **no contiene datos reales de clientes ni alumnos**. Los 
 
 `js/theme-manager.js` separa el tema del motor de conversaciones, pedidos y ficheros utilizando `data-os-theme`. El tema público por defecto es **modern**. `css/themes/retro98.css` es un **prototipo estructural** para preparar una futura transformación integral de escritorio, ventanas, controles y aplicaciones; **todavía no existe una opción visible para activarlo en el simulador**. En desarrollo se puede probar llamando a `AtCOS.ThemeManager.apply('retro98')` desde las herramientas de depuración.
 
-Esta versión se ha desarrollado sobre la **v0.5 del repositorio**, no reemplazando los módulos con el ZIP antiguo v0.4. Conserva las aplicaciones de Archivos y Tareas, los adjuntos y los tests existentes.
+**Nota histórica v0.6:** esa versión se desarrolló sobre la v0.5 del repositorio, sin sustituir módulos por el ZIP antiguo v0.4. Conserva las aplicaciones de Archivos y Tareas, los adjuntos y los tests existentes.
 
 ## Cambios de v0.7
 
@@ -84,3 +84,7 @@ Esta versión se ha desarrollado sobre la **v0.5 del repositorio**, no reemplaza
 - **Eliminada por completo la descarga real de archivos virtuales:** el explorador deja de mostrar «Descargar al ordenador» y `AtCOS.VFS.download` deja de existir. La carpeta *Descargas* sigue siendo exclusivamente una carpeta **virtual del simulador**, útil para organizar copias y adjuntos.
 - **Se mantiene expresamente la exportación del informe PDF final**, que sí es el documento que el alumno debe entregar al profesor.
 - **Icono de Configuración redibujado desde cero:** engranaje SVG simétrico de ocho dientes y aro central, comprobado con un renderizado y test de límites 24×24.
+
+## Mantenimiento v0.9.1
+
+Actualización de compatibilidad **sin cambios visuales ni nuevos canales**: bloquea copiar una carpeta dentro de sí misma o de una subcarpeta; verifica que los adjuntos sigan presentes y fuera de la Papelera antes de enviarlos; impide adjuntar tras finalizar la jornada; evita casos huérfanos o dependencias circulares; comprueba sintaxis JavaScript y relación de documentos recibidos con pedidos/clientes en CI. Las sesiones guardadas siguen usando el mismo formato y la misma clave de almacenamiento. Las decisiones activas de producto están en `docs/PRODUCT_DECISIONS.md`, no en los apartados históricos de versiones anteriores.
