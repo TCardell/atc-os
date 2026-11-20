@@ -1,30 +1,53 @@
-/* Deterministic, balanced selection. State stores selected IDs, never the full catalogue size. */
+/* Deterministic, dependency-safe selection from independent case packs.
+   Keeps the public API choose(cases,{limit,seed}) -> IDs unchanged. */
 window.AtCOS=window.AtCOS||{};
 AtCOS.ScenarioSelector=(()=>{
  const CHANNELS=['email','messages','phone','social'];
  function random(seed){let x=seed>>>0||34241;return ()=>{x^=x<<13;x^=x>>>17;x^=x<<5;return (x>>>0)/4294967296}}
- function choose(catalogue,{limit=12,seed=Date.now()}={}){const rand=random(seed);const all=catalogue.filter(x=>CHANNELS.includes(x.channel));const byId=new Map(all.map(c=>[c.id,c]));const chosen=[];
- // Un caso dependiente nunca puede entrar sin su requisito previo.
- function add(x,visiting=new Set()){
-  if(!x||chosen.includes(x.id)||chosen.length>=limit)return;
-  if(visiting.has(x.id))throw Error('Dependencia circular entre casos: '+x.id);
-  visiting.add(x.id);
-  if(typeof x.arrival==='string'){
-   const prerequisite=byId.get(x.arrival);
-   if(!prerequisite){visiting.delete(x.id);return}
-   add(prerequisite,visiting);
-   if(!chosen.includes(prerequisite.id)){visiting.delete(x.id);return}
+ function choose(catalogue,{limit=12,seed=Date.now()}={}){
+  if(!Array.isArray(catalogue))throw Error('Scenario catalogue must be an array');
+  const cap=Math.max(0,Math.floor(Number(limit)||0));
+  if(!cap)return [];
+  const rand=random(seed),all=catalogue.filter(c=>c&&CHANNELS.includes(c.channel));
+  const byId=new Map(all.map(c=>[c.id,c])),chosen=[],selected=new Set();
+  const shuffle=items=>{for(let i=items.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[items[i],items[j]]=[items[j],items[i]]}return items};
+  // Compute the WHOLE dependency chain before accepting a case. Never add
+  // half a chain when only one free slot remains.
+  function closure(candidate){
+   const visiting=new Set(),added=new Set(),chain=[];
+   function visit(item){
+    if(!item)return false;
+    if(selected.has(item.id))return true;
+    if(visiting.has(item.id))throw Error('Dependencia circular entre casos: '+item.id);
+    if(Number.isInteger(item.arrival)&&item.arrival>=cap&&item.arrival!==0)return false;
+    visiting.add(item.id);
+    if(typeof item.arrival==='string'&&!visit(byId.get(item.arrival))){visiting.delete(item.id);return false}
+    visiting.delete(item.id);
+    if(!added.has(item.id)){added.add(item.id);chain.push(item)}
+    return true;
+   }
+   return visit(candidate)?chain:null;
   }
-  visiting.delete(x.id);
-  if(!chosen.includes(x.id)&&chosen.length<limit)chosen.push(x.id);
- }
- const shuffle=items=>{for(let i=items.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[items[i],items[j]]=[items[j],items[i]]}return items};
- const groups=CHANNELS.map(channel=>shuffle(all.filter(s=>s.channel===channel))); 
- // Choose at least one case per channel, then distribute any remaining slots.
- for(const group of groups)if(group.length&&chosen.length<limit)add(group.shift());
- let remaining=shuffle(groups.flat());
- for(const x of remaining){if(chosen.length>=limit)break;add(x)}
- return chosen;
+  function add(item){
+   const chain=closure(item);
+   if(!chain||!chain.length||chosen.length+chain.length>cap)return false;
+   for(const c of chain){selected.add(c.id);chosen.push(c.id)}
+   return true;
+  }
+  // At least one immediately visible task is needed to begin the session.
+  const starters=shuffle(all.filter(c=>c.arrival===0));
+  if(starters.length)add(starters[0]);
+  // Quotas: one case per available channel when capacity/dependencies permit.
+  // Start with random candidates, then prefer the cheapest complete chain.
+  for(const channel of CHANNELS){
+   if(chosen.some(c=>c.channel===channel))continue;
+   const candidates=shuffle(all.filter(c=>c.channel===channel));
+   candidates.sort((a,b)=>(closure(a)?.length??Infinity)-(closure(b)?.length??Infinity));
+   for(const c of candidates)if(add(c))break;
+  }
+  // Randomized filling keeps runs varied while preserving their prerequisites.
+  for(const c of shuffle([...all])){if(chosen.length>=cap)break;add(c)}
+  return chosen.map(c=>c.id);
  }
  return {choose,CHANNELS};
 })();
