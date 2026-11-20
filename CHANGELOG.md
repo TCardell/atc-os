@@ -1,3 +1,13 @@
+## v0.9.2 — Fundamentos del banco ampliado (20-11-2026)
+
+- Registro atómico de paquetes de situaciones versionados; metadatos normalizados de canal, RA, dificultad y etiquetas, y validación inicial de textos ES/CA.
+- Auditoría única de integridad del banco: clientes, pedidos, documentos y cadenas de dependencias entre paquetes; CI la ejecuta antes de publicar.
+- Selección reproducible de sesiones con cuatro canales cuando sea posible, al menos una gestión visible al inicio y requisitos completos sin introducir secuencias partidas por el límite de 12.
+- Las nuevas sesiones guardan información de paquetes/versión. Las respuestas de una situación cuyo paquete desaparezca temporalmente se aparcan, sin borrarlas; vuelven al reinstalar la definición con el mismo ID.
+- Validación de imágenes en cualquier paquete, no solo en el piloto. Nuevos tests de un catálogo sintético de 32 casos, selección, auditoría y restauración.
+- Guía [docs/CASE_BANK.md](docs/CASE_BANK.md) para próximos paquetes y documentación de arquitectura actualizada.
+- **Sin nuevas situaciones activas ni cambios en el escritorio:** siguen cinco casos, cuatro canales y el informe PDF descargable; no se alteran las claves de almacenamiento.
+
 ## v0.9.1 — Mantenimiento preventivo e integridad (20-11-2026)
 
 - El sistema virtual impide copiar una carpeta dentro de sí misma o de una subcarpeta, evitando recursiones sin fin y árboles corruptos. Las copias normales se mantienen.
